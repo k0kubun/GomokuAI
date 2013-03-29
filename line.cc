@@ -8,12 +8,16 @@ LinePointIter Board::Line::PointBegin() {
   return point_list_.begin();
 }
 
-LinePointIter Board::Line::PointBack() {
-  return --(point_list_.end());
-}
-
 LinePointIter Board::Line::PointEnd() {
   return point_list_.end();
+}
+
+LinePoint Board::Line::PointFront() {
+  return point_list_.front();
+}
+
+LinePoint Board::Line::PointBack() {
+  return point_list_.back();
 }
 
 void Board::Line::Append(int x, int y) {
@@ -85,7 +89,7 @@ Vector Board::Line::DirectionVector() {
       direction.y /= abs(direction.y);
     }
 
-    if (direction.y < 0 || (direction.x == -1 && direction.y == 0)) {
+    if (direction.IsDirectionVector() == false) {
       direction = ReverseVector(direction);
     }
     return direction;
@@ -119,7 +123,12 @@ bool Board::Line::ComparePoint(LinePoint point_a, LinePoint point_b) {
 }
 
 LinePoint Board::Line::EdgeWithDirection(Vector direction) {
-  ;
+  this->Sort();
+  if (direction.IsDirectionVector()) {
+    return this->PointBack();
+  } else {
+    return this->PointFront();
+  }
 }
 
 bool Board::Line::AreContinuousPoints(LinePointIter point_a,

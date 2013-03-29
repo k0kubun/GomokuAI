@@ -3,6 +3,9 @@
 
 class Vector {
  public:
+  bool IsDirectionVector() {
+    return y > 0 || (x == 1 && y == 0);
+  }
   int x;
   int y;
 };

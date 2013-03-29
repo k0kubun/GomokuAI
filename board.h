@@ -53,8 +53,9 @@ class Board {
     Line(StoneType stone);
   
     LinePointIter PointBegin();
-    LinePointIter PointBack();
     LinePointIter PointEnd();
+    LinePoint PointFront();
+    LinePoint PointBack();
     void Append(int x, int y);
     void Append(LinePoint point);
     bool HasPoint(int x, int y);
