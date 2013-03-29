@@ -88,6 +88,8 @@ class Board {
   void set_stone(int x, int y, StoneType stone);
   
  private:
+  LinePoint MovePointWithDirection(LinePoint point, Vector direction_vector);
+  
   StoneType stone_[kBoardSize][kBoardSize];
 };
 

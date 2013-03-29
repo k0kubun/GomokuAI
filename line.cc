@@ -79,8 +79,7 @@ Vector Board::Line::DirectionVector() {
     // This method should return one of kDirectionVector[]
     if (direction_vector.y < 0 ||
         (direction_vector.x == -1 && direction_vector.y == 0)) {
-      direction_vector.x *= -1;
-      direction_vector.y *= -1;
+      direction_vector = ReverseVector(direction_vector);
     }
     return direction_vector;
   } else {

@@ -14,4 +14,10 @@ static inline Vector VectorMake(int x, int y) {
   return v;
 }
 
+static inline Vector ReverseVector(Vector vector) {
+  vector.x *= -1;
+  vector.y *= -1;
+  return vector;
+}
+
 #endif
