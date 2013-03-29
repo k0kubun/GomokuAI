@@ -40,20 +40,19 @@ int Board::StoneNum() {
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                                   Vector direction) {
-  bool appended_in_this_loop;  
   Line line(stone);
   LinePoint append_point;
 
   if (stone_[x][y] == stone) {
     line.Append(x, y);
     append_point = LinePoint(x, y);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction)) &&
+    while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
     append_point = LinePoint(x, y);
     direction = ReverseVector(direction);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction)) &&
+    while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
@@ -65,12 +64,17 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
                                                      Vector direction) {
   bool appended_in_this_loop;
-  Line splited_line_for_direction(stone);
-  Line splited_line_against_direction(stone);
-  Line main_line;
+  Line main_line, split_line_for_direction, split_line_against_direction;
+  LinePoint split_point_for_direction, split_point_against_direction;
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);
+  split_point_for_direction = main_line.EdgeWithDirection(direction);
+  split_point_for_direction.MoveWithDirection(direction);
+  split_point_for_direction.MoveWithDirection(direction);
 
-
+  split_point_against_direction =
+      main_line.EdgeWithDirection(ReverseVector(direction));
+  split_point_against_direction.MoveWithDirection(ReverseVector(direction));
+  split_point_against_direction.MoveWithDirection(ReverseVector(direction));
   return main_line;
 }
 
