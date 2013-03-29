@@ -46,41 +46,18 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
 
   if (stone_[x][y] == stone) {
     line.Append(x, y);
-    append_point.x = current_point->x + direction_vector.x;
-    append_point.y = current_point->y + direction_vector.y;
-    while () {
-      ;
+    append_point = LinePoint(x, y);
+    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+           this->stone(append_point) == stone) {
+      line.Append(append_point);
+    }
+    append_point = LinePoint(x, y);
+    direction_vector = ReverseVector(direction_vector);
+    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+           this->stone(append_point) == stone) {
+      line.Append(append_point);
     }
   }
-  // if (stone_[x][y] == stone) {
-  //   line.Append(x, y);
-  //   do {
-  //     appended_in_this_loop = false;
-  //     current_point = line.PointBegin();
-  //     while (current_point != line.PointEnd()) {
-  //       append_point.x = current_point->x + direction_vector.x;
-  //       append_point.y = current_point->y + direction_vector.y;
-  //       if (this->stone(append_point.x, append_point.y) == stone &&
-  //           IsInTheBoard(append_point.x, append_point.y)) {
-  //         if (line.HasPoint(append_point.x, append_point.y) == false) {
-  //           line.Append(append_point.x, append_point.y);
-  //           appended_in_this_loop = true;
-  //         }
-  //       }
-
-  //       append_point.x = current_point->x - direction_vector.x;
-  //       append_point.y = current_point->y - direction_vector.y;
-  //       if (this->stone(append_point.x, append_point.y) == stone &&
-  //           IsInTheBoard(append_point.x, append_point.y)) {
-  //         if (line.HasPoint(append_point.x, append_point.y) == false) {
-  //           line.Append(append_point.x, append_point.y);
-  //           appended_in_this_loop = true;
-  //         }
-  //       }
-  //       current_point++;
-  //     }
-  //   } while (appended_in_this_loop == true);
-  // }
   return line;
 }
 
@@ -132,20 +109,10 @@ StoneType Board::stone(int x, int y) {
   return stone_[x][y];
 }
 
+StoneType Board::stone(LinePoint point) {
+  return stone_[point.x][point.y];
+}
+
 void Board::set_stone(int x, int y, StoneType stone) {
   stone_[x][y] = stone;
-}
-
-LinePoint Board::MovePointWithDirection(LinePoint point,
-                                        Vector direction_vector) {
-  LinePoint moved_point;
-  moved_point.x = point.x + direction_vector.x;
-  moved_point.y = point.y + direction_vector.y;
-  return moved_point;
-}
-
-Vector Board::ReverseVector(Vector vector) {
-  vector.x *= -1;
-  vector.y *= -1;
-  return vector;
 }

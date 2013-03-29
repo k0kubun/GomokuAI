@@ -19,6 +19,10 @@ void Board::Line::Append(int x, int y) {
   point_list_.push_back(new_point);
 }
 
+void Board::Line::Append(LinePoint point) {  
+  point_list_.push_back(point);
+}
+
 bool Board::Line::HasPoint(int x, int y) {
   LinePointIter current_point;
   current_point = this->PointBegin();      

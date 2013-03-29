@@ -3,12 +3,7 @@
 
 #include <list>
 #include "vector.h"
-
-typedef struct _LinePoint {
-  int x;
-  int y;
-} LinePoint;
-typedef std::list<LinePoint>::iterator LinePointIter;
+#include "line_point.h"
 
 const int kBoardSize = 15;
 
@@ -47,6 +42,7 @@ class Board {
     LinePointIter PointBegin();
     LinePointIter PointEnd();
     void Append(int x, int y);
+    void Append(LinePoint point);
     bool HasPoint(int x, int y);
     int  ContinuousLength();
     int  DiscontinuousLength();
@@ -83,13 +79,16 @@ class Board {
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
+  static bool IsInTheBoard(LinePoint point) {
+    return (point.x >= 0 && point.x < kBoardSize) &&
+        (point.y >= 0 && point.y < kBoardSize);
+  }
   
   StoneType stone(int x, int y);
+  StoneType stone(LinePoint point);
   void set_stone(int x, int y, StoneType stone);
   
  private:
-  LinePoint MovePointWithDirection(LinePoint point, Vector direction_vector);
-  
   StoneType stone_[kBoardSize][kBoardSize];
 };
 
