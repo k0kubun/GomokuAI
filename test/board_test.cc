@@ -2,13 +2,13 @@
 #include "../line.cc"
 #include "../board.cc"
 
-TEST (Board, HasWinner) {
-  Board board;
-  for (int i = 0; i < 5; i++) {
-    board.set_stone(0, i, kStoneBlack);
-  }
-  EXPECT_EQ(true, board.HasWinner(kStoneBlack));
-}
+// TEST (Board, HasWinner) {
+//   Board board;
+//   for (int i = 0; i < 5; i++) {
+//     board.set_stone(0, i, kStoneBlack);
+//   }
+//   EXPECT_EQ(true, board.HasWinner(kStoneBlack));
+// }
 
 TEST (Board, StoneNum) {
   Board board;

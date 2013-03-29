@@ -54,7 +54,8 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
       while (current_point != line.PointEnd()) {
         append_point.x = current_point->x + direction_vector.x;
         append_point.y = current_point->y + direction_vector.y;
-        if (IsInTheBoard(append_point.x, append_point.y)) {
+        if (this->stone(append_point.x, append_point.y) == stone &&
+            IsInTheBoard(append_point.x, append_point.y)) {
           if (line.HasPoint(append_point.x, append_point.y) == false) {
             line.Append(append_point.x, append_point.y);
             appended_in_this_loop = true;
@@ -63,7 +64,8 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
 
         append_point.x = current_point->x - direction_vector.x;
         append_point.y = current_point->y - direction_vector.y;
-        if (IsInTheBoard(append_point.x, append_point.y)) {
+        if (this->stone(append_point.x, append_point.y) == stone &&
+            IsInTheBoard(append_point.x, append_point.y)) {
           if (line.HasPoint(append_point.x, append_point.y) == false) {
             line.Append(append_point.x, append_point.y);
             appended_in_this_loop = true;
