@@ -2,7 +2,7 @@
 #include "../line.cc"
 #include "../board.cc"
 
-// This should be deleted
-TEST (SampleTest, MustBeOK) {
-  EXPECT_EQ(0 + 0, 0);
+TEST (Board, HasWinner) {
+  Board board;
+  EXPECT_EQ(board.HasWinner(kStoneBlack), false);
 }
