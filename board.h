@@ -7,17 +7,23 @@
 
 // You can decide rule by changing these consts
 const int  kBoardSize = 15;
-const bool kWhiteAllowed3x3  = true;
-const bool kWhiteAllowed4x4  = true;
-const bool kWhiteAllowedLong = true;
-const bool kBlackAllowed3x3  = false;
-const bool kBlackAllowed4x4  = false;
-const bool kBlackAllowedLong = false;
+const bool kAllowed3x3[2] = {
+  false, // Black
+  true   // White
+};
+const bool kAllowed4x4[2] = {
+  false, // Black
+  true   // White
+};
+const bool kAllowedLong[2] = {
+  false, // Black
+  true   // White
+};
 
 enum StoneType {
-  kStoneBlank = 0,
-  kStoneBlack = 1,
-  kStoneWhite = 2,
+  kStoneBlank = -1,
+  kStoneBlack = 0,
+  kStoneWhite = 1,
 };
 
 enum BannedReason {

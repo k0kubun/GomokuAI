@@ -9,10 +9,10 @@ Board::Board() {
 }
 
 bool Board::HasWinner(StoneType stone) {
-  if (stone == kStoneBlack) {
-    return FindContinuousLineByLength(5, stone).IsLine();
-  } else {
+  if (kAllowedLong[stone]) {
     return FindContinuousLineWithLengthAtLeast(5, stone).IsLine();
+  } else {
+    return FindContinuousLineByLength(5, stone).IsLine();
   }
 }
 
