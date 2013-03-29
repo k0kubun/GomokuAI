@@ -1,0 +1,6 @@
+puzzle.h
+puzzle.mm
+GomokuPuzzle.h
+GomokuPuzzle.mm
+*.o
+.DS_Store
