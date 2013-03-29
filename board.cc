@@ -39,7 +39,7 @@ int Board::StoneNum() {
 }
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
-                                                  Vector direction_vector) {
+                                                  Vector direction) {
   bool appended_in_this_loop;  
   Line line(stone);
   LinePoint append_point;
@@ -47,13 +47,13 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
   if (stone_[x][y] == stone) {
     line.Append(x, y);
     append_point = LinePoint(x, y);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+    while (IsInTheBoard(append_point.MoveWithDirection(direction)) &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
     append_point = LinePoint(x, y);
-    direction_vector = ReverseVector(direction_vector);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+    direction = ReverseVector(direction);
+    while (IsInTheBoard(append_point.MoveWithDirection(direction)) &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
@@ -63,26 +63,15 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
 
 Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
-                                                     Vector direction_vector) {
-  bool appended_in_this_loop;  
-  Line line(stone);
-  LinePoint append_point;
+                                                     Vector direction) {
+  bool appended_in_this_loop;
+  Line splited_line_for_direction(stone);
+  Line splited_line_against_direction(stone);
+  Line main_line;
+  main_line = GetContinuousLineWithDirection(x, y, stone, direction);
 
-  if (stone_[x][y] == stone) {
-    line.Append(x, y);
-    append_point = LinePoint(x, y);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
-           this->stone(append_point) == stone) {
-      line.Append(append_point);
-    }
-    append_point = LinePoint(x, y);
-    direction_vector = ReverseVector(direction_vector);
-    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
-           this->stone(append_point) == stone) {
-      line.Append(append_point);
-    }
-  }
-  return line;
+
+  return main_line;
 }
 
 Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {

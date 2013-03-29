@@ -53,6 +53,7 @@ class Board {
     Line(StoneType stone);
   
     LinePointIter PointBegin();
+    LinePointIter PointBack();
     LinePointIter PointEnd();
     void Append(int x, int y);
     void Append(LinePoint point);
@@ -63,6 +64,7 @@ class Board {
     Vector DirectionVector();
     void Sort();
     static bool ComparePoint(LinePoint point_a, LinePoint point_b);
+    LinePoint EdgeWithDirection(Vector direction);
 
     StoneType stone();
     void set_stone(StoneType stone);
@@ -82,9 +84,9 @@ class Board {
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
-                                      Vector direction_vector);
+                                      Vector direction);
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
-                                         Vector direction_vector);
+                                         Vector direction);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);

@@ -22,3 +22,46 @@ TEST (Line, IsLine) {
   Board::Line line(kStoneBlack);
   EXPECT_EQ(false, line.IsLine());
 }
+
+TEST (Line, Sort) {
+  Board::Line line(kStoneBlack);
+  line.Append(1, 1);
+  line.Append(0, 0);
+  line.Append(2, 2);
+  line.Sort();
+  EXPECT_EQ(0, line.PointBegin()->x);
+  EXPECT_EQ(2, line.PointBack()->x);
+  
+  // line = Board::Line(kStoneBlack);
+  // line.Append(0, 1);
+  // line.Append(0, 2);
+  // line.Append(0, 0);  
+  // line.Sort();
+  // EXPECT_EQ(0, line.PointBegin()->y);
+  // EXPECT_EQ(2, line.PointBack()->y);
+
+  line = Board::Line(kStoneBlack);
+  line.Append(2, 0);
+  line.Append(0, 0);
+  line.Append(1, 0);  
+  line.Sort();
+  EXPECT_EQ(0, line.PointBegin()->x);
+  EXPECT_EQ(2, line.PointBack()->x);
+  
+  line = Board::Line(kStoneBlack);
+  line.Append(2, 0);
+  line.Append(1, 1);
+  line.Append(0, 2);
+  line.Sort();
+  EXPECT_EQ(0, line.PointBegin()->x);
+  EXPECT_EQ(2, line.PointBack()->x);
+}
+
+TEST (Line, DirectionVector) {
+  Board::Line line(kStoneBlack);
+  line.Append(0, 2);
+  line.Append(0, 0);
+  Vector direction = line.DirectionVector();
+  EXPECT_EQ(0, direction.x);
+  EXPECT_EQ(1, direction.y);
+}
