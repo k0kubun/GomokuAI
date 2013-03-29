@@ -4,3 +4,4 @@ GomokuPuzzle.h
 GomokuPuzzle.mm
 *.o
 .DS_Store
+test/*.test
