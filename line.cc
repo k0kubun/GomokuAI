@@ -65,7 +65,7 @@ int Board::Line::DiscontinuousLength() {
 }
 
 bool Board::Line::IsLine() {
-  return point_list_.size() < 2;
+  return point_list_.size() > 1;
 }
 
 Vector Board::Line::DirectionVector() {

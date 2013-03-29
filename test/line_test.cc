@@ -2,12 +2,17 @@
 #include "../board.cc"
 #include "../line.cc"
 
-// This should be deleted
-TEST (SampleTest, MustBeOK) {
-  EXPECT_EQ(0 + 0, 0);
-}
-
 TEST (Line, ContinuousLength) {
   Board::Line line(kStoneBlack);
-  EXPECT_EQ(line.ContinuousLength(), 0);
+  EXPECT_EQ(0, line.ContinuousLength());
+}
+
+TEST (Line, DiscontinuousLength) {
+  Board::Line line(kStoneBlack);
+  EXPECT_EQ(0, line.DiscontinuousLength());
+}
+
+TEST (Line, IsLine) {
+  Board::Line line(kStoneBlack);
+  EXPECT_EQ(false, line.IsLine());
 }
