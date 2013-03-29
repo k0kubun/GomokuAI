@@ -10,9 +10,9 @@ Board::Board() {
 
 bool Board::HasWinner(StoneType stone) {
   if (stone == kStoneBlack) {
-    return FindContinuousLineByLength(5, kStoneBlack).IsLine();
+    return FindContinuousLineByLength(5, stone).IsLine();
   } else {
-    return FindContinuousLineWithLengthAtLeast(5, kStoneWhite).IsLine();
+    return FindContinuousLineWithLengthAtLeast(5, stone).IsLine();
   }
 }
 
@@ -24,6 +24,18 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   virtual_board.set_stone(x, y, stone);
   //TODO: ここからやる
+}
+
+int Board::StoneNum() {
+  int stone_num = 0;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (stone_[i][j] != kStoneBlank) {
+        stone_num++;
+      }
+    }
+  }  
+  return stone_num;
 }
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,

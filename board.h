@@ -71,6 +71,7 @@ class Board {
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
+  int  StoneNum();
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                       Vector direction_vector);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
