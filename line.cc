@@ -13,10 +13,7 @@ LinePointIter Board::Line::PointEnd() {
 }
 
 void Board::Line::Append(int x, int y) {  
-  LinePoint new_point;  
-  new_point.x = x;
-  new_point.y = y;
-  point_list_.push_back(new_point);
+  this->Append(LinePoint(x, y));
 }
 
 void Board::Line::Append(LinePoint point) {  

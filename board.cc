@@ -61,6 +61,30 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
   return line;
 }
 
+Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
+                                                     StoneType stone,
+                                                     Vector direction_vector) {
+  bool appended_in_this_loop;  
+  Line line(stone);
+  LinePoint append_point;
+
+  if (stone_[x][y] == stone) {
+    line.Append(x, y);
+    append_point = LinePoint(x, y);
+    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+           this->stone(append_point) == stone) {
+      line.Append(append_point);
+    }
+    append_point = LinePoint(x, y);
+    direction_vector = ReverseVector(direction_vector);
+    while (IsInTheBoard(append_point.MoveWithDirection(direction_vector)) &&
+           this->stone(append_point) == stone) {
+      line.Append(append_point);
+    }
+  }
+  return line;
+}
+
 Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {
   Line current_line, longest_line;
   for (int i = 0; i < kDirectionVectorNum; i++) {
@@ -110,7 +134,7 @@ StoneType Board::stone(int x, int y) {
 }
 
 StoneType Board::stone(LinePoint point) {
-  return stone_[point.x][point.y];
+  return stone(point.x, point.y);
 }
 
 void Board::set_stone(int x, int y, StoneType stone) {

@@ -83,6 +83,8 @@ class Board {
   int  StoneNum();
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                       Vector direction_vector);
+  Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
+                                         Vector direction_vector);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);
