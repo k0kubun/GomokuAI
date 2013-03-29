@@ -23,7 +23,7 @@ bool Board::IsBannedPoint(int x, int y, StoneType stone) {
 BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   virtual_board.set_stone(x, y, stone);
-  //TODO: ここから
+  //TODO: ここからやる
 }
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
