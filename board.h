@@ -5,7 +5,14 @@
 #include "vector.h"
 #include "line_point.h"
 
-const int kBoardSize = 15;
+// You can decide rule by changing these consts
+const int  kBoardSize = 15;
+const bool kWhiteAllowed3x3  = true;
+const bool kWhiteAllowed4x4  = true;
+const bool kWhiteAllowedLong = true;
+const bool kBlackAllowed3x3  = false;
+const bool kBlackAllowed4x4  = false;
+const bool kBlackAllowedLong = false;
 
 enum StoneType {
   kStoneBlank = 0,
