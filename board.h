@@ -81,7 +81,7 @@ class Board {
   Line FindDiscontinuousLine(int length, StoneType stone);
 
   static bool IsInTheBoard(int x, int y) {
-    return x > 0 && x < kBoardSize && y > 0 && y < kBoardSize;
+    return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
   
   StoneType stone(int x, int y);
