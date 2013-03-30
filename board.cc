@@ -38,19 +38,19 @@ int Board::StoneNum() {
   return stone_num;
 }
 
-Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
+Board::Line Board::GetContinuousLineWithDirection(LinePoint point,
+                                                  StoneType stone,
                                                   Vector direction) {
   Line line(stone);
   LinePoint append_point;
-
-  if (stone_[x][y] == stone) {
-    line.Append(x, y);
-    append_point = LinePoint(x, y);
+  if (this->stone(point) == stone) {
+    line.Append(point);
+    append_point = point;
     while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
-    append_point = LinePoint(x, y);
+    append_point = point;
     direction = ReverseVector(direction);
     while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
@@ -58,6 +58,11 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
     }
   }
   return line;
+}
+
+Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
+                                                  Vector direction) {
+  return GetContinuousLineWithDirection(LinePoint(x, y), stone, direction);
 }
 
 Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
@@ -70,11 +75,15 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
   split_point_for_direction = main_line.EdgeWithDirection(direction);
   split_point_for_direction.MoveWithDirection(direction);
   split_point_for_direction.MoveWithDirection(direction);
+  split_line_for_direction = GetContinuousLineWithDirection(
+      split_point_for_direction, stone, direction);
 
   split_point_against_direction =
       main_line.EdgeWithDirection(ReverseVector(direction));
   split_point_against_direction.MoveWithDirection(ReverseVector(direction));
   split_point_against_direction.MoveWithDirection(ReverseVector(direction));
+  split_line_against_direction = GetContinuousLineWithDirection(
+      split_point_against_direction, stone, direction);
   return main_line;
 }
 

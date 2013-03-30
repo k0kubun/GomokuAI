@@ -23,6 +23,14 @@ TEST (Line, IsLine) {
   EXPECT_EQ(false, line.IsLine());
 }
 
+TEST (Line, Append) {
+  Board::Line line_a, line_b;
+  line_a = Board::Line::LineMake(LinePoint(0,1), LinePoint(0,2));
+  line_b = Board::Line::LineMake(LinePoint(0,3), LinePoint(0,4));
+  line_a.Append(line_b);
+  EXPECT_EQ(4, line_a.DiscontinuousLength());
+}
+
 TEST (Line, Sort) {
   Board::Line line(kStoneBlack);
   line.Append(1, 1);

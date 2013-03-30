@@ -20,12 +20,26 @@ LinePoint Board::Line::PointBack() {
   return point_list_.back();
 }
 
+void Board::Line::Append(LinePoint point) {  
+  point_list_.push_back(point);
+}
+
 void Board::Line::Append(int x, int y) {
   this->Append(LinePoint(x, y));
 }
 
-void Board::Line::Append(LinePoint point) {  
-  point_list_.push_back(point);
+void Board::Line::Append(Line line) {
+  LinePointIter current_point = line.PointBegin();
+  while (current_point != line.PointEnd()) {
+    if (this->HasPoint(*current_point) == false) {
+      this->Append(*current_point);
+    }
+    current_point++;
+  }
+}
+
+bool Board::Line::HasPoint(LinePoint point) {
+  return this->HasPoint(point.x, point.y);
 }
 
 bool Board::Line::HasPoint(int x, int y) {

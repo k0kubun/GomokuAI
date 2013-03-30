@@ -42,8 +42,10 @@ class Board {
     LinePointIter PointEnd();
     LinePoint PointFront();
     LinePoint PointBack();
-    void Append(int x, int y);
     void Append(LinePoint point);
+    void Append(int x, int y);
+    void Append(Line line);
+    bool HasPoint(LinePoint point);
     bool HasPoint(int x, int y);
     int  ContinuousLength();
     int  DiscontinuousLength();
@@ -71,6 +73,8 @@ class Board {
   bool IsBannedPoint(int x, int y, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
+  Line GetContinuousLineWithDirection(LinePoint point, StoneType stone,
+                                      Vector direction);  
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                       Vector direction);
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
