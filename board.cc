@@ -84,6 +84,13 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
   split_point_against_direction.MoveWithDirection(ReverseVector(direction));
   split_line_against_direction = GetContinuousLineWithDirection(
       split_point_against_direction, stone, direction);
+
+  if (split_line_for_direction.ContinuousLength() >
+      split_line_against_direction.ContinuousLength()) {
+    main_line.Append(split_line_for_direction);
+  } else {
+    main_line.Append(split_line_against_direction);
+  }
   return main_line;
 }
 

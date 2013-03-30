@@ -74,5 +74,7 @@ TEST (Board, GetDiscontinuousLineWithDirection) {
   EXPECT_EQ(5, line.ContinuousLength());
 
   board.set_stone(0, 3, kStoneBlank);
-  EXPECT_EQ(4, line.ContinuousLength());
+  line = board.GetDiscontinuousLineWithDirection(
+      0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
+  EXPECT_EQ(4, line.DiscontinuousLength());
 }
