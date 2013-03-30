@@ -1,21 +1,4 @@
 
-#import "GomokuPuzzle.h"
-
-int getPlayStoneType(GOMOKU* puzzle) {
-  if (numOfCertainTypeStoneOnTheBoard(puzzle, S_BLACK) == numOfCertainTypeStoneOnTheBoard(puzzle, S_WHITE)) {
-    return S_BLACK;
-  } else {
-    return S_WHITE;
-  }
-}
-
-GOMOKU initBoard(int stage){
-  GOMOKU puzzle;
-    
-  puzzle.board[0][0] = S_BLANK;
-  return puzzle;
-}
-
 void addStoneHistory(GOMOKU* puzzle, int x, int y, int addStoneType) {
   POINTLIST* newStonePoint = newPointList();
     
@@ -2279,18 +2262,6 @@ POINT* getPointToMake2LineWithMT(GOMOKU* puzzle, int putStoneType) {
     
 
   return putPoint;
-}
-
-int stoneNum(GOMOKU* puzzle) {
-  int num = 0;
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      if (puzzle->board[i][j] != S_BLANK) {
-        num++;
-      }
-    }
-  }
-  return num;
 }
 
 //意味もなくてきとうにおく
