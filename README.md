@@ -10,10 +10,11 @@ This software is coded in
 
 Testing
 -------
-Using [googletest](https://code.google.com/p/googletest/) as C++ testing framework.
+Using [googletest](https://code.google.com/p/googletest/) as C++ testing framework.  
 You can run test by below
-    make setup  
-    make all  
+  
+make setup  
+make  
 
 License
 -------
