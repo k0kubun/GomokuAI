@@ -21,3 +21,8 @@ line: line.cc board.h test/line_test.cc
 	g++ -o test/line.test line_test.o gtest/gtest_main.o gtest/gtest-all.o
 	rm line_test.o
 	./test/line.test
+
+setup: gtest/gtest-all.cc gtest/gtest_main.cc
+	g++ -I./ -c gtest/gtest-all.cc
+	g++ -I./ -c gtest/gtest_main.cc
+	mv gtest*.o gtest
