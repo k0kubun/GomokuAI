@@ -55,10 +55,11 @@ class Board {
 
     StoneType stone();
     void set_stone(StoneType stone);
+    static Line LineMake(LinePoint point_a, LinePoint point_b);
  
    private:
     bool AreContinuousPoints(LinePointIter point_a, LinePointIter point_b);
-    static Line LineMake(LinePoint point_a, LinePoint point_b);
+
     
     std::list<LinePoint> point_list_;
     StoneType stone_;

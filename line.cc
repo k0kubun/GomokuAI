@@ -80,11 +80,11 @@ bool Board::Line::IsLine() {
 Vector Board::Line::DirectionVector() {
   if (this->IsLine()) {
     Vector direction;
-    direction.x = (point_list_.begin())->x - (point_list_.end())->x;
+    direction.x = this->PointFront().x - this->PointBack().x;
     if (direction.x != 0) {
       direction.x /= abs(direction.x);
     }
-    direction.y = (point_list_.begin())->y - (point_list_.end())->y;
+    direction.y = this->PointFront().y - this->PointBack().y;
     if (direction.y != 0) {
       direction.y /= abs(direction.y);
     }

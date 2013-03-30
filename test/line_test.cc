@@ -32,14 +32,13 @@ TEST (Line, Sort) {
   EXPECT_EQ(0, line.PointFront().x);
   EXPECT_EQ(2, line.PointBack().x);
 
-  // Fail???
-  // line = Board::Line(kStoneBlack);
-  // line.Append(1, 2);
-  // line.Append(1, 4);
-  // line.Append(1, 3);  
-  // line.Sort();
-  // EXPECT_EQ(2, line.PointBegin()->y);
-  // EXPECT_EQ(4, line.PointBack()->y);
+  line = Board::Line(kStoneBlack);
+  line.Append(0, 1);
+  line.Append(0, 3);
+  line.Append(0, 2);  
+  line.Sort();
+  EXPECT_EQ(1, line.PointFront().y);
+  EXPECT_EQ(3, line.PointBack().y);
 
   line = Board::Line(kStoneBlack);
   line.Append(2, 0);
@@ -54,8 +53,8 @@ TEST (Line, Sort) {
   line.Append(1, 1);
   line.Append(0, 2);
   line.Sort();
-  EXPECT_EQ(0, line.PointFront().x);
-  EXPECT_EQ(2, line.PointBack().x);
+  EXPECT_EQ(2, line.PointFront().x);
+  EXPECT_EQ(0, line.PointBack().x);
 }
 
 
@@ -68,20 +67,22 @@ TEST (Line, EdgeWithDirection) {
   point = line.EdgeWithDirection(kDirectionVector[kDirection45Degree]);
   EXPECT_EQ(2, point.x);
 
-  // Fail...
-  // line = Board::Line(kStoneBlack);
-  // line.Append(1, 2);
-  // line.Append(1, 4);
-  // line.Append(1, 3);
-  // point = line.EdgeWithDirection(kDirectionVector[kDirection45Degree]);
-  // EXPECT_EQ(4, point.y);
+  line = Board::Line(kStoneBlack);
+  line.Append(1, 2);
+  line.Append(1, 4);
+  line.Append(1, 3);
+  point = line.EdgeWithDirection(kDirectionVector[kDirection45Degree]);
+  EXPECT_EQ(4, point.y);
 }
 
 TEST (Line, DirectionVector) {
   Board::Line line(kStoneBlack);
-  line.Append(0, 2);
-  line.Append(0, 0);
-  Vector direction = line.DirectionVector();
-  EXPECT_EQ(0, direction.x);
-  EXPECT_EQ(1, direction.y);
+  Vector vector;
+  line = Board::Line::LineMake(LinePoint(0,1), LinePoint(0,2));
+  EXPECT_EQ(0, line.PointBack().x);
+  EXPECT_EQ(0, line.PointFront().x);
+  
+  vector = line.DirectionVector();
+  EXPECT_EQ(0, vector.x);
+  EXPECT_EQ(1, vector.y);
 }
