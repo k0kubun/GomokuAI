@@ -1,6 +1,6 @@
 Valkyrie
 =======
-Artificial Intelligence capable of playing Gomoku
+Artificial Intelligence capable of playing Gomoku  
 Created by Takashi Kokubun at [tekunodo](http://tekunodo.jp/).  
 
 Coding Style
