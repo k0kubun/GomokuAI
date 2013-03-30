@@ -1,6 +1,6 @@
-Renju
+Valkyrie
 =======
-Artificial Intelligence capable of playing Renju (a.k.a. Gomoku)  
+Artificial Intelligence capable of playing Gomoku
 Created by Takashi Kokubun at [tekunodo](http://tekunodo.jp/).  
 
 Coding Style
