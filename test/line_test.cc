@@ -94,14 +94,14 @@ TEST (Line, SplitPoint) {
   point = line.SplitPoint();
   EXPECT_EQ(3, point.x);
   EXPECT_EQ(3, point.y);
-  EXPECT_EQ(true, point.IsValid());
+  EXPECT_EQ(true, point.Exists());
 
   line = Board::Line(kStoneBlack);
   line.Append(0, 0);
   line.Append(1, 1);
   line.Append(2, 2);
   point = line.SplitPoint();
-  EXPECT_EQ(false, point.IsValid());
+  EXPECT_EQ(false, point.Exists());
 }
 
 TEST (Line, DirectionVector) {

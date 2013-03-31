@@ -109,8 +109,38 @@ bool Board::Line::IsContinuous() {
   return true;
 }
 
+int Board::Line::BlankNumIn(Board board) {
+  int blank_num = 0;
+  if (Board.stone(this->DirectionalBlank()) == kStoneBlank) {
+    blank_num++;
+  }
+  if (Board.stone(this->UndirectionalBlank()) == kStoneBlank) {
+    blank_num++;
+  }
+  return blank_num;
+}
+
 bool Board::Line::IsAliveIn(Board board) {
-  ;
+  Position split_point = this->SplitPoint();
+  if (split_point.Exists()) {
+    if (board.stone(split_point) == kStoneBlank) {
+      return false;
+    }
+  }
+  if (this->DiscontinuousLength() == 4) {
+    if (split_point.Exists()) {
+      return true;
+    } else {
+      if (this->BlankNumIn(board) > 0) {
+        return true;
+      }
+    }      
+  } else if (this->DiscontinuousLength() == 3) {
+    if (this->BlankNumIn(board) == 2) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Vector Board::Line::DirectionVector() {
@@ -191,7 +221,7 @@ Position Board::Line::SplitPoint() {
     prev_point = current_point;
     current_point++;
   }
-  return Position().SetInvalid();
+  return Position::Null();
 }
 
 StoneType Board::Line::stone() {

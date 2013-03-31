@@ -8,6 +8,9 @@ class Position {
   Position() {
     valid_ = true;
   }
+  Position(bool valid) {
+    valid_ = valid;
+  }
   Position(int point_x, int point_y) {
     x = point_x;
     y = point_y;
@@ -29,11 +32,10 @@ class Position {
   bool IsInTheBoard() {
     return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);        
   }
-  Position SetInvalid() {
-    valid_ = false;
-    return *this;
+  static Position Null() {
+    return Position(false);
   }
-  bool IsValid() {
+  bool Exists() {
     return valid_;
   }
   

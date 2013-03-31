@@ -51,6 +51,7 @@ class Board {
     int  DiscontinuousLength();
     bool IsLine();
     bool IsContinuous();
+    int  BlankNumIn(Board board);
     bool IsAliveIn(Board board);
     Vector DirectionVector();
     void Sort();
@@ -61,6 +62,7 @@ class Board {
     Position DirectionalBlank();
     Position UndirectionalBlank();
     Position SplitPoint();
+    Position SplitPointIn(Board board);
 
     StoneType stone();
     void set_stone(StoneType stone);
