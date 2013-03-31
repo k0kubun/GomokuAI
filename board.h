@@ -50,6 +50,7 @@ class Board {
     int  ContinuousLength();
     int  DiscontinuousLength();
     bool IsLine();
+    bool IsContinuous();
     bool IsAliveIn(Board board);
     Vector DirectionVector();
     void Sort();

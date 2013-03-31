@@ -92,6 +92,23 @@ bool Board::Line::IsLine() {
   return point_list_.size() > 1;
 }
 
+bool Board::Line::IsContinuous() {
+  PositionIter current_point, prev_point;
+  this->Sort();
+
+  current_point = this->PointBegin();
+  while (current_point != this->PointEnd()) {
+    if (current_point != this->PointBegin()) {
+      if (AreContinuousPoints(current_point, prev_point) == false) {
+        return false;
+      }
+    }
+    prev_point = current_point;
+    current_point++;
+  }
+  return true;
+}
+
 bool Board::Line::IsAliveIn(Board board) {
   ;
 }
