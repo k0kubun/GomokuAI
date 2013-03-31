@@ -7,8 +7,8 @@ class Position {
  public:
   Position() {}  
   Position(int point_x, int point_y) {
-    x = position_x;
-    y = position_y;
+    x = point_x;
+    y = point_y;
   }
   Position MoveWithDirection(Vector direction_vector) {
     this->x += direction_vector.x;

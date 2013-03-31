@@ -25,8 +25,8 @@ TEST (Line, IsLine) {
 
 TEST (Line, Append) {
   Board::Line line_a, line_b;
-  line_a = Board::Line::LineMake(LinePoint(0,1), LinePoint(0,2));
-  line_b = Board::Line::LineMake(LinePoint(0,3), LinePoint(0,4));
+  line_a = Board::Line::LineMake(Position(0,1), Position(0,2));
+  line_b = Board::Line::LineMake(Position(0,3), Position(0,4));
   line_a.Append(line_b);
   EXPECT_EQ(4, line_a.DiscontinuousLength());
 }
@@ -68,7 +68,7 @@ TEST (Line, Sort) {
 
 TEST (Line, EdgeWithDirection) {
   Board::Line line(kStoneBlack);
-  LinePoint point;
+  Position point;
   line.Append(2, 2);
   line.Append(0, 0);
   line.Append(1, 1);
@@ -86,7 +86,7 @@ TEST (Line, EdgeWithDirection) {
 TEST (Line, DirectionVector) {
   Board::Line line(kStoneBlack);
   Vector vector;
-  line = Board::Line::LineMake(LinePoint(0,1), LinePoint(0,2));
+  line = Board::Line::LineMake(Position(0,1), Position(0,2));
   EXPECT_EQ(0, line.PointBack().x);
   EXPECT_EQ(0, line.PointFront().x);
   
