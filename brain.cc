@@ -9,8 +9,14 @@ void Brain::PutStone(Board board) {
 }
 
 Position Brain::GetPutPosition(Board board) {
+  Board::Line line;
   Position put_position;
-  put_position = 
+
+  line = board.FindAliveDiscontinuousLine(4, kStoneWhite);
+  if (line.Exists()) {
+    return GetStopPosition(board, line);
+  }
+  
   return GetEmptyPosition(board);
 }
 
@@ -32,6 +38,20 @@ Position Brain::GetEmptyPosition(Board board) {
     }
   }
   return Position(0, 0);
+}
+
+Position Brain::GetStopPosition(Board board, Board::Line line) {
+  if (line.IsContinuous()) {
+    if (board.AllowsToPut(line.DirectionalBlank())) {
+      return line.DirectionalBlank();
+    } else if (board.AllowsToPut(line.UndirectionalBlank())) {
+      return line.UndirectionalBlank();
+    } else {
+      return Position::Null();
+    }
+  } else {
+    return line.SplitPoint();
+  }
 }
 
 StoneType Brain::OppositeStone(StoneType stone) {

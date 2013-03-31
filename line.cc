@@ -88,6 +88,14 @@ int Board::Line::DiscontinuousLength() {
   return point_list_.size();
 }
 
+bool Board::Line::Exists() {
+  return this->stone() != kStoneBlank;
+}
+
+Board::Line Board::Line::Null() {
+  return Line(kStoneBlank);
+}
+
 bool Board::Line::IsLine() {
   return point_list_.size() > 1;
 }

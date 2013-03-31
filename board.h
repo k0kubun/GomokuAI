@@ -49,6 +49,8 @@ class Board {
     bool HasPoint(int x, int y);
     int  ContinuousLength();
     int  DiscontinuousLength();
+    bool Exists();
+    static Line Null();
     bool IsLine();
     bool IsContinuous();
     int  BlankNumIn(Board board);
@@ -62,7 +64,6 @@ class Board {
     Position DirectionalBlank();
     Position UndirectionalBlank();
     Position SplitPoint();
-    Position SplitPointIn(Board board);
 
     StoneType stone();
     void set_stone(StoneType stone);
@@ -79,6 +80,7 @@ class Board {
 
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
+  bool AllowsToPut(Position point);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   Line FindAliveDiscontinuousLine(int length, StoneType stone);
@@ -104,7 +106,7 @@ class Board {
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
                                          Vector direction);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
-  Line GetMaxLengthDiscontinuousLine(int x, int y, StoneType stone);
+  Line GetMaxLengthAliveDiscontinuousLine(int x, int y, StoneType stone);
   
   StoneType stone_[kBoardSize][kBoardSize];
 };
