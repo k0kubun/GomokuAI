@@ -3,19 +3,31 @@
 using namespace std;
 
 void Gomocup::Start() {
-  board_ = Board();
   while (true) {
     string line;
+    FILE *file;
     getline(cin, line);
+    file = fopen("out.txt", "a");
+    fprintf(file, "%s", line.c_str());
+    fclose(file);
     
     if (line.compare(0, 5, "START") == 0) {
-      cout << "OK\n";
+      board_ = Board();
+      printf("OK\n");
+    } else if (line.compare(0, 7, "RESTART") == 0) {
+      board_ = Board();
+      printf("OK\n");
     } else if (line.compare(0, 4, "TURN") == 0) {
       ParseTurnString(line, kStoneWhite);
+      PrintAIPutPosition(kStoneBlack);
+    } else if (line.compare(0, 5, "BEGIN") == 0) {
       PrintAIPutPosition(kStoneBlack);
     } else if (line.compare(0, 5, "BOARD") == 0) {
       while (true) {
         getline(cin, line);
+        file = fopen("out.txt", "a");
+        fprintf(file, "%s", line.c_str());
+        fclose(file);
         if (line.compare(0, 4, "DONE") == 0) {
           break;
         } else {
@@ -28,10 +40,10 @@ void Gomocup::Start() {
     } else if (line.compare(0, 3, "END") == 0) {
       break;
     } else if (line.compare(0, 5, "ABOUT") == 0) {
-      cout << "name=\"Valkyrie\", version=\"1.0\", "
-           << "author=\"Takashi Kokubun\", country=\"Japan\"\n";
+      printf("name=\"Valkyrie\", version=\"1.0\", ",
+             "author=\"Takashi Kokubun\", country=\"Japan\"\n");
     } else {
-      cout << "UNKNOWN\n";
+      printf("UNKNOWN\n");
     }
     fflush(stdout);
   }
@@ -40,7 +52,7 @@ void Gomocup::Start() {
 void Gomocup::PrintAIPutPosition(StoneType play_stone) {
   Position put_position = Brain(play_stone).GetPutPosition(board_);
   board_.set_stone(put_position, play_stone);
-  cout << put_position.x << "," << put_position.y << "\n";
+  printf("%d,%d\n", put_position.x, put_position.y);
 }
 
 void Gomocup::ParseTurnString(string turn_string, StoneType opponent_stone) {
