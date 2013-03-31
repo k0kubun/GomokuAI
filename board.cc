@@ -38,11 +38,11 @@ int Board::StoneNum() {
   return stone_num;
 }
 
-Board::Line Board::GetContinuousLineWithDirection(LinePoint point,
+Board::Line Board::GetContinuousLineWithDirection(Position point,
                                                   StoneType stone,
                                                   Vector direction) {
   Line line(stone);
-  LinePoint append_point;
+  Position append_point;
   if (this->stone(point) == stone) {
     line.Append(point);
     append_point = point;
@@ -62,7 +62,7 @@ Board::Line Board::GetContinuousLineWithDirection(LinePoint point,
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                                   Vector direction) {
-  return GetContinuousLineWithDirection(LinePoint(x, y), stone, direction);
+  return GetContinuousLineWithDirection(Position(x, y), stone, direction);
 }
 
 Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
@@ -70,7 +70,7 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      Vector direction) {
   bool appended_in_this_loop;
   Line main_line, split_line_for_direction, split_line_against_direction;
-  LinePoint split_point_for_direction, split_point_against_direction;
+  Position split_point_for_direction, split_point_against_direction;
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);
   split_point_for_direction = main_line.EdgeWithDirection(direction);
   split_point_for_direction.MoveWithDirection(direction);
@@ -142,7 +142,7 @@ StoneType Board::stone(int x, int y) {
   return stone_[x][y];
 }
 
-StoneType Board::stone(LinePoint point) {
+StoneType Board::stone(Position point) {
   return stone(point.x, point.y);
 }
 

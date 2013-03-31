@@ -1,16 +1,16 @@
-#ifndef LINE_POINT_H_
-#define LINE_POINT_H_
+#ifndef POSITION_H_
+#define POSITION_H_
 
 #include "rule.h"
 
-class LinePoint {
+class Position {
  public:
-  LinePoint() {}  
-  LinePoint(int point_x, int point_y) {
-    x = point_x;
-    y = point_y;
+  Position() {}  
+  Position(int point_x, int point_y) {
+    x = position_x;
+    y = position_y;
   }
-  LinePoint MoveWithDirection(Vector direction_vector) {
+  Position MoveWithDirection(Vector direction_vector) {
     this->x += direction_vector.x;
     this->y += direction_vector.y;
     return *this;
@@ -23,6 +23,6 @@ class LinePoint {
   int y;
 };
 
-typedef std::list<LinePoint>::iterator LinePointIter;
+typedef std::list<Position>::iterator PositionIter;
 
 #endif

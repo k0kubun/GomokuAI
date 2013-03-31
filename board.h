@@ -3,7 +3,7 @@
 
 #include <list>
 #include "vector.h"
-#include "line_point.h"
+#include "position.h"
 #include "rule.h"
 
 enum StoneType {
@@ -38,32 +38,31 @@ class Board {
     Line() {};
     Line(StoneType stone);
   
-    LinePointIter PointBegin();
-    LinePointIter PointEnd();
-    LinePoint PointFront();
-    LinePoint PointBack();
-    void Append(LinePoint point);
+    PositionIter PointBegin();
+    PositionIter PointEnd();
+    Position PointFront();
+    Position PointBack();
+    void Append(Position point);
     void Append(int x, int y);
     void Append(Line line);
-    bool HasPoint(LinePoint point);
+    bool HasPoint(Position point);
     bool HasPoint(int x, int y);
     int  ContinuousLength();
     int  DiscontinuousLength();
     bool IsLine();
     Vector DirectionVector();
     void Sort();
-    static bool ComparePoint(LinePoint point_a, LinePoint point_b);
-    LinePoint EdgeWithDirection(Vector direction);
+    static bool ComparePoint(Position point_a, Position point_b);
+    Position EdgeWithDirection(Vector direction);
 
     StoneType stone();
     void set_stone(StoneType stone);
-    static Line LineMake(LinePoint point_a, LinePoint point_b);
+    static Line LineMake(Position point_a, Position point_b);
  
    private:
-    bool AreContinuousPoints(LinePointIter point_a, LinePointIter point_b);
-
+    bool AreContinuousPoints(PositionIter point_a, PositionIter point_b);
     
-    std::list<LinePoint> point_list_;
+    std::list<Position> point_list_;
     StoneType stone_;
   };
   
@@ -73,7 +72,7 @@ class Board {
   bool IsBannedPoint(int x, int y, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
-  Line GetContinuousLineWithDirection(LinePoint point, StoneType stone,
+  Line GetContinuousLineWithDirection(Position point, StoneType stone,
                                       Vector direction);  
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                       Vector direction);
@@ -88,13 +87,13 @@ class Board {
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
-  static bool IsInTheBoard(LinePoint point) {
+  static bool IsInTheBoard(Position point) {
     return (point.x >= 0 && point.x < kBoardSize) &&
         (point.y >= 0 && point.y < kBoardSize);
   }
   
   StoneType stone(int x, int y);
-  StoneType stone(LinePoint point);
+  StoneType stone(Position point);
   void set_stone(int x, int y, StoneType stone);
   
  private:

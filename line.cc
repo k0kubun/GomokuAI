@@ -4,32 +4,32 @@ Board::Line::Line(StoneType stone) {
   stone_ = stone;  
 }
 
-LinePointIter Board::Line::PointBegin() {
+PositionIter Board::Line::PointBegin() {
   return point_list_.begin();
 }
 
-LinePointIter Board::Line::PointEnd() {
+PositionIter Board::Line::PointEnd() {
   return point_list_.end();
 }
 
-LinePoint Board::Line::PointFront() {
+Position Board::Line::PointFront() {
   return point_list_.front();
 }
 
-LinePoint Board::Line::PointBack() {
+Position Board::Line::PointBack() {
   return point_list_.back();
 }
 
-void Board::Line::Append(LinePoint point) {  
+void Board::Line::Append(Position point) {  
   point_list_.push_back(point);
 }
 
 void Board::Line::Append(int x, int y) {
-  this->Append(LinePoint(x, y));
+  this->Append(Position(x, y));
 }
 
 void Board::Line::Append(Line line) {
-  LinePointIter current_point = line.PointBegin();
+  PositionIter current_point = line.PointBegin();
   while (current_point != line.PointEnd()) {
     if (this->HasPoint(*current_point) == false) {
       this->Append(*current_point);
@@ -38,12 +38,12 @@ void Board::Line::Append(Line line) {
   }
 }
 
-bool Board::Line::HasPoint(LinePoint point) {
+bool Board::Line::HasPoint(Position point) {
   return this->HasPoint(point.x, point.y);
 }
 
 bool Board::Line::HasPoint(int x, int y) {
-  LinePointIter current_point;
+  PositionIter current_point;
   current_point = this->PointBegin();      
   while (current_point != this->PointEnd()) {
     if (current_point->x == x && current_point->y == y) {
@@ -55,7 +55,7 @@ bool Board::Line::HasPoint(int x, int y) {
 }
 
 int Board::Line::ContinuousLength() {
-  LinePointIter current_point, prev_point;
+  PositionIter current_point, prev_point;
   int current_length, max_length;
   if (this->IsLine()) {
     this->Sort();
@@ -126,7 +126,7 @@ void Board::Line::set_stone(StoneType stone) {
   stone_ = stone;
 }
 
-bool Board::Line::ComparePoint(LinePoint point_a, LinePoint point_b) {
+bool Board::Line::ComparePoint(Position point_a, Position point_b) {
   Vector direction = LineMake(point_a, point_b).DirectionVector();
 
   if (direction.x == 1) {
@@ -136,7 +136,7 @@ bool Board::Line::ComparePoint(LinePoint point_a, LinePoint point_b) {
   }
 }
 
-LinePoint Board::Line::EdgeWithDirection(Vector direction) {
+Position Board::Line::EdgeWithDirection(Vector direction) {
   this->Sort();
   if (direction.IsDirectionVector()) {
     return this->PointBack();
@@ -145,12 +145,12 @@ LinePoint Board::Line::EdgeWithDirection(Vector direction) {
   }
 }
 
-bool Board::Line::AreContinuousPoints(LinePointIter point_a,
-                                      LinePointIter point_b) {
+bool Board::Line::AreContinuousPoints(PositionIter point_a,
+                                      PositionIter point_b) {
   return abs(point_a->x - point_b->x) < 2 && abs(point_a->y - point_b->y) < 2;
 }
 
-Board::Line Board::Line::LineMake(LinePoint point_a, LinePoint point_b) {
+Board::Line Board::Line::LineMake(Position point_a, Position point_b) {
   Line line;
   line.Append(point_a.x, point_a.y);
   line.Append(point_b.x, point_b.y);
