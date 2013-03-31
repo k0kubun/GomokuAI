@@ -3,7 +3,8 @@
 using namespace std;
 
 void Gomocup::Start() {
-  while (true) {    
+  while (true) {
+    Brain brain(kStoneBlack);
     string command;
     getline(cin, command);
     

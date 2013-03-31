@@ -148,3 +148,7 @@ StoneType Board::stone(Position point) {
 void Board::set_stone(int x, int y, StoneType stone) {
   stone_[x][y] = stone;
 }
+
+void Board::set_stone(Position point, StoneType stone) {
+  this->set_stone(point.x, point.y, stone);
+}

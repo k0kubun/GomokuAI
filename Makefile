@@ -31,7 +31,8 @@ gomocup: gomocup.cc gomocup.h board.cc line.cc board.h
 	g++ -c board.cc
 	g++ -c line.cc
 	g++ -c gomocup.cc
-	g++ -o gomocup board.o line.o gomocup.o
+	g++ -c brain.cc
+	g++ -o gomocup board.o line.o gomocup.o brain.o
 	rm board.o
 	rm line.o
 	rm gomocup.o

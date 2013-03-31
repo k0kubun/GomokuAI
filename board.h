@@ -95,6 +95,7 @@ class Board {
   StoneType stone(int x, int y);
   StoneType stone(Position point);
   void set_stone(int x, int y, StoneType stone);
+  void set_stone(Position point, StoneType stone);
   
  private:
   StoneType stone_[kBoardSize][kBoardSize];

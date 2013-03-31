@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
-#include "board.h"
+#include "brain.h"
 
 class Gomocup {
  public:
