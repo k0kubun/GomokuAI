@@ -30,15 +30,15 @@ TEST (Board, FindContinuousLineByLength) {
   }
 }
 
-TEST (Board, GetMaxLengthContinuousLine) {
-  Board board;
-  Board::Line line;
-  for (int i = 0; i < 5; i++) {
-    board.set_stone(0, i, kStoneBlack);
-    line = board.GetMaxLengthContinuousLine(0, 0, kStoneBlack);
-    EXPECT_EQ(i + 1, line.ContinuousLength());
-  }
-}
+// TEST (Board, GetMaxLengthContinuousLine) {
+//   Board board;
+//   Board::Line line;
+//   for (int i = 0; i < 5; i++) {
+//     board.set_stone(0, i, kStoneBlack);
+//     line = board.GetMaxLengthContinuousLine(0, 0, kStoneBlack);
+//     EXPECT_EQ(i + 1, line.ContinuousLength());
+//   }
+// }
 
 TEST (Board, IsInTheBoard) {
   EXPECT_EQ(true, Board::IsInTheBoard(0, 0));

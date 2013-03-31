@@ -72,20 +72,15 @@ class Board {
   bool IsBannedPoint(int x, int y, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
-  Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
-  Line GetMaxLengthDiscontinuousLine(int x, int y, StoneType stone);
   Line FindAliveDiscontinuousLine(int length, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);
-  Line FindDiscontinuousLine(int x, int y, StoneType stone);
-  Line FindDiscontinuousLine(int length, StoneType stone);
 
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
   static bool IsInTheBoard(Position point) {
-    return (point.x >= 0 && point.x < kBoardSize) &&
-        (point.y >= 0 && point.y < kBoardSize);
+    return IsInTheBoard(point.x, point.y);
   }
   
   StoneType stone(int x, int y);
@@ -100,6 +95,8 @@ class Board {
                                       Vector direction);
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
                                          Vector direction);
+  Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
+  Line GetMaxLengthDiscontinuousLine(int x, int y, StoneType stone);
   
   StoneType stone_[kBoardSize][kBoardSize];
 };

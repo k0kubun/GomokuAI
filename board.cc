@@ -38,31 +38,6 @@ int Board::StoneNum() {
   return stone_num;
 }
 
-Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {
-  Line current_line, longest_line;
-  for (int i = 0; i < kDirectionVectorNum; i++) {
-    current_line =
-        GetContinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
-    if (current_line.ContinuousLength() > longest_line.ContinuousLength()) {
-      longest_line = current_line;
-    }
-  }
-  return longest_line;
-}
-
-Board::Line Board::GetMaxLengthDiscontinuousLine(int x, int y,
-                                                 StoneType stone) {
-  Line current_line, longest_line;
-  for (int i = 0; i < kDirectionVectorNum; i++) {
-    current_line =
-        GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
-    if (current_line.DiscontinuousLength() > longest_line.DiscontinuousLength()) {
-      longest_line = current_line;
-    }
-  }
-  return longest_line;
-}
-
 Board::Line Board::FindAliveDiscontinuousLine(int length, StoneType stone) {
   Line line;
   return line;
@@ -93,19 +68,6 @@ Board::Line Board::FindContinuousLineWithLengthAtLeast(int least_length,
     }
   }
   return Line();
-}
-
-Board::Line Board::FindDiscontinuousLine(int length, StoneType stone) {
-  Line discontinuous_line;
-  for (int i = 0; i < kBoardSize; i++) {
-    for (int j = 0; j < kBoardSize; j++) {
-      discontinuous_line = GetMaxLengthContinuousLine(i, j, stone);
-      if (discontinuous_line.ContinuousLength() == length) {
-        return discontinuous_line;
-      }
-    }
-  }
-  return discontinuous_line;
 }
 
 StoneType Board::stone(int x, int y) {
@@ -181,4 +143,29 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
     main_line.Append(split_line_against_direction);
   }
   return main_line;
+}
+
+Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {
+  Line current_line, longest_line;
+  for (int i = 0; i < kDirectionVectorNum; i++) {
+    current_line =
+        GetContinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    if (current_line.ContinuousLength() > longest_line.ContinuousLength()) {
+      longest_line = current_line;
+    }
+  }
+  return longest_line;
+}
+
+Board::Line Board::GetMaxLengthDiscontinuousLine(int x, int y,
+                                                 StoneType stone) {
+  Line current_line, longest_line;
+  for (int i = 0; i < kDirectionVectorNum; i++) {
+    current_line =
+        GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    if (current_line.DiscontinuousLength() > longest_line.DiscontinuousLength()) {
+      longest_line = current_line;
+    }
+  }
+  return longest_line;
 }
