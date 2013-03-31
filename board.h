@@ -55,6 +55,8 @@ class Board {
     void Sort();
     static bool ComparePoint(Position point_a, Position point_b);
     Position EdgeWithDirection(Vector direction);
+    Position DirectionalEdge();
+    Position UndirectionalEdge();
 
     StoneType stone();
     void set_stone(StoneType stone);

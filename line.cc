@@ -92,7 +92,7 @@ bool Board::Line::IsLine() {
   return point_list_.size() > 1;
 }
 
-bool Board::Line::IsAliveIn() {
+bool Board::Line::IsAliveIn(Board board) {
   ;
 }
 
@@ -148,6 +148,16 @@ Position Board::Line::EdgeWithDirection(Vector direction) {
   } else {
     return this->PointFront();
   }
+}
+
+Position Board::Line::DirectionalEdge() {
+  Vector direction = this->DirectionVector();
+  return this->EdgeWithDirection(direction);
+}
+
+Position Board::Line::UndirectionalEdge() {
+  Vector direction = this->DirectionVector();
+  return this->EdgeWithDirection(ReverseVector(direction));
 }
 
 bool Board::Line::AreContinuousPoints(PositionIter point_a,

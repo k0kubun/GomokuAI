@@ -102,13 +102,12 @@ Board::Line Board::GetContinuousLineWithDirection(Position point,
   if (this->stone(point) == stone) {
     line.Append(point);
     append_point = point;
-    while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
+    while (append_point.MoveForDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
     append_point = point;
-    direction = ReverseVector(direction);
-    while (append_point.MoveWithDirection(direction).IsInTheBoard() &&
+    while (append_point.MoveAgainstDirection(direction).IsInTheBoard() &&
            this->stone(append_point) == stone) {
       line.Append(append_point);
     }
@@ -124,31 +123,31 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
 Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
                                                      Vector direction) {
-  Line main_line, split_line_for_direction, split_line_against_direction;
-  Position split_point_for_direction, split_point_against_direction;
+  Line main_line, split_line_a, split_line_b;
+  Position directional_edge, undirectional_edge;
+  
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);
-  split_point_for_direction = main_line.EdgeWithDirection(direction);
-  split_point_for_direction.MoveWithDirection(direction);
-  if (this->stone(split_point_for_direction) == kStoneBlank) {
-    split_point_for_direction.MoveWithDirection(direction);
-    split_line_for_direction = GetContinuousLineWithDirection(
-        split_point_for_direction, stone, direction);
+  
+  directional_edge = main_line.DirectionalEdge();
+  directional_edge.MoveForDirection(direction);
+  if (this->stone(directional_edge) == kStoneBlank) {
+    directional_edge.MoveForDirection(direction);
+    split_line_a = GetContinuousLineWithDirection(directional_edge,
+                                                  stone, direction);
   }
 
-  split_point_against_direction =
-      main_line.EdgeWithDirection(ReverseVector(direction));
-  split_point_against_direction.MoveWithDirection(ReverseVector(direction));
-  if (this->stone(split_point_against_direction) == kStoneBlank) {
-    split_point_against_direction.MoveWithDirection(ReverseVector(direction));
-    split_line_against_direction = GetContinuousLineWithDirection(
-        split_point_against_direction, stone, direction);
+  undirectional_edge = main_line.UndirectionalEdge();
+  undirectional_edge.MoveAgainstDirection(direction);
+  if (this->stone(undirectional_edge) == kStoneBlank) {
+    undirectional_edge.MoveAgainstDirection(direction);
+    split_line_b = GetContinuousLineWithDirection(undirectional_edge,
+                                                  stone, direction);
   }
 
-  if (split_line_for_direction.ContinuousLength() >
-      split_line_against_direction.ContinuousLength()) {
-    main_line.Append(split_line_for_direction);
+  if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {
+    main_line.Append(split_line_a);
   } else {
-    main_line.Append(split_line_against_direction);
+    main_line.Append(split_line_b);
   }
   return main_line;
 }

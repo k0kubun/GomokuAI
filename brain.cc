@@ -9,6 +9,8 @@ void Brain::PutStone(Board board) {
 }
 
 Position Brain::GetPutPosition(Board board) {
+  Position put_position;
+  put_position = 
   return GetEmptyPosition(board);
 }
 

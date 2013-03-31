@@ -13,10 +13,13 @@ class Position {
     y = point_y;
     valid_ = true;
   }
-  Position MoveWithDirection(Vector direction_vector) {
-    this->x += direction_vector.x;
-    this->y += direction_vector.y;
+  Position MoveForDirection(Vector direction) {
+    this->x += direction.x;
+    this->y += direction.y;
     return *this;
+  }
+  Position MoveAgainstDirection(Vector direction) {
+    return MoveForDirection(ReverseVector(direction));
   }
   bool IsInTheBoard() {
     return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);        
