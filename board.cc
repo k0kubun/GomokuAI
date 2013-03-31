@@ -124,24 +124,20 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
                                                      Vector direction) {
   Line main_line, split_line_a, split_line_b;
-  Position directional_edge, undirectional_edge;
+  Position directional_blank, undirectional_blank;
   
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);
   
-  directional_edge = main_line.DirectionalEdge();
-  directional_edge.MoveForDirection(direction);
-  if (this->stone(directional_edge) == kStoneBlank) {
-    directional_edge.MoveForDirection(direction);
-    split_line_a = GetContinuousLineWithDirection(directional_edge,
-                                                  stone, direction);
+  directional_blank = main_line.DirectionalBlank();
+  if (this->stone(directional_blank) == kStoneBlank) {
+    split_line_a = GetContinuousLineWithDirection(
+        directional_blank.MoveForDirection(direction), stone, direction);
   }
 
-  undirectional_edge = main_line.UndirectionalEdge();
-  undirectional_edge.MoveAgainstDirection(direction);
-  if (this->stone(undirectional_edge) == kStoneBlank) {
-    undirectional_edge.MoveAgainstDirection(direction);
-    split_line_b = GetContinuousLineWithDirection(undirectional_edge,
-                                                  stone, direction);
+  undirectional_blank = main_line.UndirectionalBlank();
+  if (this->stone(undirectional_blank) == kStoneBlank) {
+    split_line_b = GetContinuousLineWithDirection(
+        undirectional_blank.MoveAgainstDirection(direction), stone, direction);
   }
 
   if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {
