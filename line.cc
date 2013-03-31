@@ -111,10 +111,10 @@ bool Board::Line::IsContinuous() {
 
 int Board::Line::BlankNumIn(Board board) {
   int blank_num = 0;
-  if (Board.stone(this->DirectionalBlank()) == kStoneBlank) {
+  if (board.stone(this->DirectionalBlank()) == kStoneBlank) {
     blank_num++;
   }
-  if (Board.stone(this->UndirectionalBlank()) == kStoneBlank) {
+  if (board.stone(this->UndirectionalBlank()) == kStoneBlank) {
     blank_num++;
   }
   return blank_num;
