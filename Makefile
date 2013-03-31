@@ -27,7 +27,7 @@ setup: gtest/gtest-all.cc gtest/gtest_main.cc
 	g++ -I./ -c gtest/gtest_main.cc
 	mv gtest*.o gtest
 
-gomocup: gomocup.cc gomocup.h board.cc line.cc board.h
+gomocup: gomocup.cc gomocup.h board.cc line.cc board.h brain.cc brain.h
 	g++ -c board.cc
 	g++ -c line.cc
 	g++ -c gomocup.cc

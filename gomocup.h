@@ -11,10 +11,12 @@ class Gomocup {
   Gomocup() {};
 
   void Start();
-  void SetStone(int x, int y);
-  void LetBrainPlay();
- 
+  void PrintAIPutPosition(StoneType play_stone);
+  
  private:
+  void ParseTurnString(std::string turn_string, StoneType enemy_stone);
+  void ParseBoardString(std::string board_string);
+  
   Board board_;
 };
 

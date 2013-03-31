@@ -23,7 +23,7 @@ void Brain::set_play_stone(StoneType play_stone) {
 Position Brain::GetEmptyPosition(Board board) {
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      if (board.stone(i, j) != kStoneBlank) {
+      if (board.stone(i, j) == kStoneBlank) {
         return Position(i, j);
       }
     }
