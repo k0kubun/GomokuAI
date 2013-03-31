@@ -5,10 +5,13 @@
 
 class Position {
  public:
-  Position() {}  
+  Position() {
+    valid_ = true;
+  }
   Position(int point_x, int point_y) {
     x = point_x;
     y = point_y;
+    valid_ = true;
   }
   Position MoveWithDirection(Vector direction_vector) {
     this->x += direction_vector.x;
@@ -18,9 +21,18 @@ class Position {
   bool IsInTheBoard() {
     return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);        
   }
+  void SetInvalid() {
+    valid_ = false;
+  }
+  bool IsValid() {
+    return valid_;
+  }
   
   int x;
   int y;
+
+ private:
+  bool valid_;
 };
 
 typedef std::list<Position>::iterator PositionIter;

@@ -5,18 +5,20 @@
 
 class Brain {
  public:
-  Brain(StoneType play_stone);
+  Brain(StoneType own_stone);
   
   void PutStone(Board board);
   Position GetPutPosition(Board board);
 
-  StoneType play_stone();
-  void set_play_stone(StoneType play_stone);
+  StoneType own_stone();
+  void set_own_stone(StoneType own_stone);
   
  private:
   Position GetEmptyPosition(Board board);
+  StoneType OppositeStone(StoneType stone);
 
-  StoneType play_stone_;
+  StoneType own_stone_;
+  StoneType opponent_stone_;
 };
 
 #endif
