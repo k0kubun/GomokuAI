@@ -17,14 +17,14 @@ bool Board::HasWinner(StoneType stone) {
 }
 
 bool Board::IsBannedPoint(int x, int y, StoneType stone) {
-  ;
+  return false;
 }
 
-BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
-  Board virtual_board(*this);
-  virtual_board.set_stone(x, y, stone);
-  //TODO: ここからやる
-}
+// BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
+//   Board virtual_board(*this);
+//   virtual_board.set_stone(x, y, stone);
+//   //TODO: ここからやる
+// }
 
 int Board::StoneNum() {
   int stone_num = 0;
@@ -68,7 +68,6 @@ Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
 Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
                                                      Vector direction) {
-  bool appended_in_this_loop;
   Line main_line, split_line_for_direction, split_line_against_direction;
   Position split_point_for_direction, split_point_against_direction;
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);

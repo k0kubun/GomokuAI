@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "board.h"
 
 Board::Line::Line(StoneType stone) {
