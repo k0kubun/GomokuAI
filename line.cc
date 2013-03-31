@@ -92,6 +92,10 @@ bool Board::Line::IsLine() {
   return point_list_.size() > 1;
 }
 
+bool Board::Line::IsAliveIn() {
+  ;
+}
+
 Vector Board::Line::DirectionVector() {
   if (this->IsLine()) {
     Vector direction;

@@ -40,6 +40,14 @@ int Board::StoneNum() {
 
 Board::Line Board::FindAliveDiscontinuousLine(int length, StoneType stone) {
   Line line;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      line = GetMaxLengthDiscontinuousLine(i, j, stone);
+      if (line.DiscontinuousLength() == length) {
+        return line;
+      }
+    }
+  }  
   return line;
 }
 

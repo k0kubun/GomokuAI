@@ -50,6 +50,7 @@ class Board {
     int  ContinuousLength();
     int  DiscontinuousLength();
     bool IsLine();
+    bool IsAliveIn(Board board);
     Vector DirectionVector();
     void Sort();
     static bool ComparePoint(Position point_a, Position point_b);
