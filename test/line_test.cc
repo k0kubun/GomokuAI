@@ -83,6 +83,27 @@ TEST (Line, EdgeWithDirection) {
   EXPECT_EQ(4, point.y);
 }
 
+TEST (Line, SplitPoint) {
+  Board::Line line(kStoneBlack);
+  Position point;
+
+  line.Append(0, 0);
+  line.Append(1, 1);
+  line.Append(2, 2);
+  line.Append(4, 4);
+  point = line.SplitPoint();
+  EXPECT_EQ(3, point.x);
+  EXPECT_EQ(3, point.y);
+  EXPECT_EQ(true, point.IsValid());
+
+  line = Board::Line(kStoneBlack);
+  line.Append(0, 0);
+  line.Append(1, 1);
+  line.Append(2, 2);
+  point = line.SplitPoint();
+  EXPECT_EQ(false, point.IsValid());
+}
+
 TEST (Line, DirectionVector) {
   Board::Line line(kStoneBlack);
   Vector vector;

@@ -58,6 +58,9 @@ class Board {
     Position EdgeWithDirection(Vector direction);
     Position DirectionalEdge();
     Position UndirectionalEdge();
+    Position DirectionalBlank();
+    Position UndirectionalBlank();
+    Position SplitPoint();
 
     StoneType stone();
     void set_stone(StoneType stone);
@@ -79,7 +82,6 @@ class Board {
   Line FindAliveDiscontinuousLine(int length, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);
-
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }

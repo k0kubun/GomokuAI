@@ -13,6 +13,11 @@ class Position {
     y = point_y;
     valid_ = true;
   }
+  Position(std::list<Position>::iterator point_iter) {
+    x = point_iter->x;
+    y = point_iter->y;
+    valid_ = true;
+  }
   Position MoveForDirection(Vector direction) {
     this->x += direction.x;
     this->y += direction.y;
@@ -24,8 +29,9 @@ class Position {
   bool IsInTheBoard() {
     return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);        
   }
-  void SetInvalid() {
+  Position SetInvalid() {
     valid_ = false;
+    return *this;
   }
   bool IsValid() {
     return valid_;

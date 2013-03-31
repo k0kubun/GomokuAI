@@ -139,14 +139,6 @@ void Board::Line::Sort() {
     point_list_.sort(Line::ComparePoint);
   }
 }
- 
-StoneType Board::Line::stone() {
-  return stone_;
-}
- 
-void Board::Line::set_stone(StoneType stone) {
-  stone_ = stone;
-}
 
 bool Board::Line::ComparePoint(Position point_a, Position point_b) {
   Vector direction = LineMake(point_a, point_b).DirectionVector();
@@ -177,9 +169,37 @@ Position Board::Line::UndirectionalEdge() {
   return this->EdgeWithDirection(ReverseVector(direction));
 }
 
-bool Board::Line::AreContinuousPoints(PositionIter point_a,
-                                      PositionIter point_b) {
-  return abs(point_a->x - point_b->x) < 2 && abs(point_a->y - point_b->y) < 2;
+Position Board::Line::DirectionalBlank() {
+  return this->DirectionalEdge().MoveForDirection(DirectionVector());
+}
+
+Position Board::Line::UndirectionalBlank() {
+  return this->UndirectionalEdge().MoveAgainstDirection(DirectionVector());
+}
+
+Position Board::Line::SplitPoint() {
+  PositionIter current_point, prev_point;
+  this->Sort();
+
+  current_point = this->PointBegin();
+  while (current_point != this->PointEnd()) {
+    if (current_point != this->PointBegin()) {
+      if (AreContinuousPoints(current_point, prev_point) == false) {
+        return Position(prev_point).MoveForDirection(this->DirectionVector());
+      }
+    }
+    prev_point = current_point;
+    current_point++;
+  }
+  return Position().SetInvalid();
+}
+
+StoneType Board::Line::stone() {
+  return stone_;
+}
+ 
+void Board::Line::set_stone(StoneType stone) {
+  stone_ = stone;
 }
 
 Board::Line Board::Line::LineMake(Position point_a, Position point_b) {
@@ -187,4 +207,9 @@ Board::Line Board::Line::LineMake(Position point_a, Position point_b) {
   line.Append(point_a.x, point_a.y);
   line.Append(point_b.x, point_b.y);
   return line;
+}
+
+bool Board::Line::AreContinuousPoints(PositionIter point_a,
+                                      PositionIter point_b) {
+  return abs(point_a->x - point_b->x) < 2 && abs(point_a->y - point_b->y) < 2;
 }
