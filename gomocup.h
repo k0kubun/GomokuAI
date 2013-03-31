@@ -14,7 +14,7 @@ class Gomocup {
   void PrintAIPutPosition(StoneType play_stone);
   
  private:
-  void ParseTurnString(std::string turn_string, StoneType enemy_stone);
+  void ParseTurnString(std::string turn_string, StoneType opponent_stone);
   void ParseBoardString(std::string board_string);
   
   Board board_;
