@@ -73,16 +73,20 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
   main_line = GetContinuousLineWithDirection(x, y, stone, direction);
   split_point_for_direction = main_line.EdgeWithDirection(direction);
   split_point_for_direction.MoveWithDirection(direction);
-  split_point_for_direction.MoveWithDirection(direction);
-  split_line_for_direction = GetContinuousLineWithDirection(
-      split_point_for_direction, stone, direction);
+  if (this->stone(split_point_for_direction) == kStoneBlank) {
+    split_point_for_direction.MoveWithDirection(direction);
+    split_line_for_direction = GetContinuousLineWithDirection(
+        split_point_for_direction, stone, direction);
+  }
 
   split_point_against_direction =
       main_line.EdgeWithDirection(ReverseVector(direction));
   split_point_against_direction.MoveWithDirection(ReverseVector(direction));
-  split_point_against_direction.MoveWithDirection(ReverseVector(direction));
-  split_line_against_direction = GetContinuousLineWithDirection(
-      split_point_against_direction, stone, direction);
+  if (this->stone(split_point_against_direction) == kStoneBlank) {
+    split_point_against_direction.MoveWithDirection(ReverseVector(direction));
+    split_line_against_direction = GetContinuousLineWithDirection(
+        split_point_against_direction, stone, direction);
+  }
 
   if (split_line_for_direction.ContinuousLength() >
       split_line_against_direction.ContinuousLength()) {
