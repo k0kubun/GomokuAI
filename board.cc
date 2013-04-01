@@ -8,6 +8,10 @@ Board::Board() {
   }
 }
 
+bool Board::HasWinner() {
+  return this->HasWinner(kStoneBlack) || this->HasWinner(kStoneWhite);
+}
+
 bool Board::HasWinner(StoneType stone) {
   if (kAllowedLong[stone]) {
     return FindContinuousLineWithLengthAtLeast(5, stone).IsLine();
@@ -17,14 +21,14 @@ bool Board::HasWinner(StoneType stone) {
 }
 
 bool Board::IsBannedPoint(int x, int y, StoneType stone) {
-  return GetBannedReason(x, y, stone) != kNoBan;
+  return BannedReason(x, y, stone) != kNoBan;
 }
 
 bool Board::AllowsToPut(Position point) {
   return this->stone(point) == kStoneBlank && point.IsInTheBoard();
 }
 
-BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
+BannedReason Board::BannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   Board::Line line;
   int num_of_length[kBoardSize + 1];
@@ -59,15 +63,19 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
 }
 
 int Board::StoneNum() {
-  int stone_num = 0;
+  return NumOf(kStoneBlack) + NumOf(kStoneWhite);
+}
+
+int Board::NumOf(StoneType stone) {
+  int num = 0;
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      if (stone_[i][j] != kStoneBlank) {
-        stone_num++;
+      if (stone_[i][j] == stone) {
+        num++;
       }
     }
-  }  
-  return stone_num;
+  }
+  return num;
 }
 
 Board::Line Board::FindAliveDiscontinuousLine(int length, StoneType stone) {
@@ -89,6 +97,23 @@ Board::Line Board::FindContinuousLineByLength(int length, StoneType stone) {
     for (int j = 0; j < kBoardSize; j++) {
       continuous_line = GetMaxLengthContinuousLine(i, j, stone);
       if (continuous_line.ContinuousLength() == length) {
+        return continuous_line;
+      }
+    }
+  }
+  return Line::Null();
+}
+
+Board::Line Board::FindContinuousLineWithLengthAtLeast(int least_length) {
+  Line continuous_line;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      continuous_line = GetMaxLengthContinuousLine(i, j, kStoneBlack);
+      if (continuous_line.ContinuousLength() >= least_length) {
+        return continuous_line;
+      }
+      continuous_line = GetMaxLengthContinuousLine(i, j, kStoneWhite);
+      if (continuous_line.ContinuousLength() >= least_length) {
         return continuous_line;
       }
     }

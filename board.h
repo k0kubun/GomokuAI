@@ -78,13 +78,16 @@ class Board {
   
   Board();
 
+  bool HasWinner();
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
   bool AllowsToPut(Position point);
-  BannedReason GetBannedReason(int x, int y, StoneType stone);
+  BannedReason BannedReason(int x, int y, StoneType stone);
   int  StoneNum();
+  int  NumOf(StoneType stone);
   Line FindAliveDiscontinuousLine(int length, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
+  Line FindContinuousLineWithLengthAtLeast(int least_length);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
