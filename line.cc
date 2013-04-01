@@ -143,7 +143,7 @@ bool Board::Line::IsAliveIn(Board board) {
         return true;
       }
     }      
-  } else if (this->DiscontinuousLength() == 3) {
+  } else if (this->DiscontinuousLength() <= 3) {
     if (this->BlankNumIn(board) == 2) {
       return true;
     }
@@ -197,22 +197,30 @@ Position Board::Line::EdgeWithDirection(Vector direction) {
   }
 }
 
-Position Board::Line::DirectionalEdge() {
-  Vector direction = this->DirectionVector();
+Position Board::Line::DirectionalEdge(Vector direction) {
   return this->EdgeWithDirection(direction);
 }
 
-Position Board::Line::UndirectionalEdge() {
-  Vector direction = this->DirectionVector();
+Position Board::Line::UndirectionalEdge(Vector direction) {
   return this->EdgeWithDirection(ReverseVector(direction));
 }
 
 Position Board::Line::DirectionalBlank() {
-  return this->DirectionalEdge().MoveForDirection(DirectionVector());
+  Vector direction = this->DirectionVector();
+  return this->DirectionalEdge(direction).MoveForDirection(direction);
+}
+
+Position Board::Line::DirectionalBlank(Vector direction) {
+  return this->DirectionalEdge(direction).MoveForDirection(direction);
 }
 
 Position Board::Line::UndirectionalBlank() {
-  return this->UndirectionalEdge().MoveAgainstDirection(DirectionVector());
+  Vector direction = this->DirectionVector();
+  return this->DirectionalEdge(direction).MoveForDirection(direction);
+}
+
+Position Board::Line::UndirectionalBlank(Vector direction) {
+  return this->DirectionalEdge(direction).MoveForDirection(direction);
 }
 
 Position Board::Line::SplitPoint() {

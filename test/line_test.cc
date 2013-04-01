@@ -115,3 +115,13 @@ TEST (Line, DirectionVector) {
   EXPECT_EQ(0, vector.x);
   EXPECT_EQ(1, vector.y);
 }
+
+TEST (Line, IsAliveIn) {
+  Board board;
+  Board::Line line(kStoneBlack);
+  board.set_stone(0, 1, kStoneBlack);
+  board.set_stone(0, 2, kStoneBlack);
+  line.Append(0, 1);
+  line.Append(0, 2);
+  EXPECT_EQ(true, line.IsAliveIn(board));
+}

@@ -1,6 +1,7 @@
 #ifndef RULE_H_
 #define RULE_H_
 
+
 // This is the rule for gomocup
 const int  kBoardSize = 20;
 const bool kAllowed3x3[2] = {
