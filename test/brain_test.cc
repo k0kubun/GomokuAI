@@ -1,12 +1,19 @@
- 0) [0,0],  62 ms
- 1) [1,0],  79 ms
- 2) [0,1],  3 ms
- 3) [0,2],  66 ms
- 4) [0,3],  3 ms
- 5) [1,1],  68 ms
- 6) [0,4],  3 ms
- 7) [1,2],  73 ms
- 8) [0,5],  4 ms
- 9) [1,3],  64 ms
-10) [1,4],  2 ms
-11) [2,4],  63 ms
+#include "../gtest/gtest.h"
+#include "../line.cc"
+#include "../board.cc"
+#include "../brain.cc"
+
+TEST (Line, DirectionVector) {
+  Brain brain(kStoneBlack);
+  Board board;
+  board.set_stone(11, 11, kStoneWhite);
+  board.set_stone(12, 12, kStoneBlack);
+  board.set_stone(13, 13, kStoneBlack);
+  board.set_stone(14, 14, kStoneBlack);
+  board.set_stone(15, 15, kStoneBlack);
+  Position put_point = brain.GetPutPosition(board);  
+
+  EXPECT_EQ(16, put_point.x);
+  EXPECT_EQ(16, put_point.y);
+}
+
