@@ -5,11 +5,11 @@ using namespace std;
 void Gomocup::Start() {
   while (true) {
     string line;
-    FILE *file;
+    //FILE *file;
     getline(cin, line);
-    file = fopen("out.txt", "a");
-    fprintf(file, "%s", line.c_str());
-    fclose(file);
+    //file = fopen("out.txt", "a");
+    //fprintf(file, "%s", line.c_str());
+    //fclose(file);
     
     if (line.compare(0, 5, "START") == 0) {
       board_ = Board();
@@ -25,9 +25,9 @@ void Gomocup::Start() {
     } else if (line.compare(0, 5, "BOARD") == 0) {
       while (true) {
         getline(cin, line);
-        file = fopen("out.txt", "a");
-        fprintf(file, "%s", line.c_str());
-        fclose(file);
+        //file = fopen("out.txt", "a");
+        //fprintf(file, "%s", line.c_str());
+        //fclose(file);
         if (line.compare(0, 4, "DONE") == 0) {
           break;
         } else {
