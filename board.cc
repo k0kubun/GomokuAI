@@ -24,11 +24,39 @@ bool Board::AllowsToPut(Position point) {
   return this->stone(point) == kStoneBlank && point.IsInTheBoard();
 }
 
-// BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
-//   Board virtual_board(*this);
-//   virtual_board.set_stone(x, y, stone);
-//   //TODO: ここからやる
-// }
+BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
+  Board virtual_board(*this);
+  Board::Line line;
+  int num_of_length[kBoardSize + 1];
+  for (int i = 0; i < kBoardSize + 1; i++) {
+    num_of_length[i] = 0;
+  }
+  
+  virtual_board.set_stone(x, y, stone);  
+  for (int i = 0; i < kDirectionVectorNum; i++) {
+    line = GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    num_of_length[line.DiscontinuousLength()]++;
+  }
+
+  if (kAllowedLong[stone] == false) {
+    for (int i = 6; i < kBoardSize + 1; i++) {
+      if (num_of_length[i] != 0) {
+        return kBanLong;
+      }
+    }
+  }
+  if (kAllowed3x3[stone] == false) {
+    if (num_of_length[3] >= 2) {
+      return kBan3x3;
+    }
+  }
+  if (kAllowed4x4[stone] == false) {
+    if (num_of_length[4] >= 2) {
+      return kBan4x4;
+    }
+  }
+  return kNoBan;
+}
 
 int Board::StoneNum() {
   int stone_num = 0;
