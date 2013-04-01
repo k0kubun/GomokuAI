@@ -22,6 +22,11 @@ Position Brain::GetPutPosition(Board board) {
     return GetExtendPoint(board, line);
   }
   
+  line = board.FindAliveDiscontinuousLine(2, own_stone());
+  if (line.Exists()) {
+    return GetExtendPoint(board, line);
+  }
+  
   return GetEmptyPoint(board);
 }
 

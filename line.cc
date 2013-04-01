@@ -143,7 +143,7 @@ bool Board::Line::IsAliveIn(Board board) {
         return true;
       }
     }      
-  } else if (this->DiscontinuousLength() == 3) {
+  } else if (this->DiscontinuousLength() <= 3) {
     if (this->BlankNumIn(board) == 2) {
       return true;
     }
