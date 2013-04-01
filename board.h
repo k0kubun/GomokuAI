@@ -59,10 +59,12 @@ class Board {
     void Sort();
     static bool ComparePoint(Position point_a, Position point_b);
     Position EdgeWithDirection(Vector direction);
-    Position DirectionalEdge();
-    Position UndirectionalEdge();
+    Position DirectionalEdge(Vector direction);
+    Position UndirectionalEdge(Vector direction);
     Position DirectionalBlank();
+    Position DirectionalBlank(Vector direction);
     Position UndirectionalBlank();
+    Position UndirectionalBlank(Vector direction);
     Position SplitPoint();
 
     StoneType stone();
@@ -81,10 +83,12 @@ class Board {
   bool HasWinner();
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
+  bool IsBannedPoint(Position point, StoneType stone);
   bool AllowsToPut(Position point);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   int  NumOf(StoneType stone);
+  int  MaxLineLength();
   Line FindAliveDiscontinuousLine(int length, StoneType stone);
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length);

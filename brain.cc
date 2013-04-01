@@ -10,21 +10,24 @@ void Brain::PutStone(Board board) {
 
 Position Brain::GetPutPosition(Board board) {
   Board::Line line;
-  Position put_position;
+  Position put_point;
 
-  line = board.FindAliveDiscontinuousLine(4, opponent_stone());
-  if (line.Exists()) {
-    return GetExtendPoint(board, line);
-  }
-  
-  line = board.FindAliveDiscontinuousLine(3, opponent_stone());
-  if (line.Exists()) {
-    return GetExtendPoint(board, line);
-  }
-  
-  line = board.FindAliveDiscontinuousLine(2, own_stone());
-  if (line.Exists()) {
-    return GetExtendPoint(board, line);
+  for (int i = board.MaxLineLength(); i > 0; i--) {
+    line = board.FindAliveDiscontinuousLine(i, own_stone());
+    if (line.Exists()) {
+      put_point = GetExtendPoint(board, line);
+      if (board.IsBannedPoint(put_point, own_stone()) == false) {
+        return put_point;
+      }
+    }
+
+    line = board.FindAliveDiscontinuousLine(i, opponent_stone());
+    if (line.Exists()) {
+      put_point = GetExtendPoint(board, line);
+      if (board.IsBannedPoint(put_point, own_stone()) == false) {
+        return put_point;
+      }
+    }
   }
   
   return GetEmptyPoint(board);

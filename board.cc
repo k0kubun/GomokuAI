@@ -24,6 +24,10 @@ bool Board::IsBannedPoint(int x, int y, StoneType stone) {
   return GetBannedReason(x, y, stone) != kNoBan;
 }
 
+bool Board::IsBannedPoint(Position point, StoneType stone) {
+  return this->IsBannedPoint(point.x, point.y, stone);
+}
+
 bool Board::AllowsToPut(Position point) {
   return this->stone(point) == kStoneBlank && point.IsInTheBoard();
 }
@@ -77,6 +81,27 @@ int Board::NumOf(StoneType stone) {
     }
   }
   return num;
+}
+
+int Board::MaxLineLength() {
+  Line line;
+  int max_length = 0, current_length;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      line = GetMaxLengthAliveDiscontinuousLine(i, j, kStoneBlack);
+      current_length = line.DiscontinuousLength();
+      if (max_length < current_length) {
+        max_length = current_length;
+      }
+
+      line = GetMaxLengthAliveDiscontinuousLine(i, j, kStoneWhite);
+      current_length = line.DiscontinuousLength();
+      if (max_length < current_length) {
+        max_length = current_length;
+      }
+    }
+  }
+  return max_length;
 }
 
 Board::Line Board::FindAliveDiscontinuousLine(int length, StoneType stone) {
@@ -192,13 +217,13 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
   if (this->stone(x, y) == stone) {
     main_line = GetContinuousLineWithDirection(x, y, stone, direction);
   
-    directional_blank = main_line.DirectionalBlank();
+    directional_blank = main_line.DirectionalBlank(direction);
     if (this->stone(directional_blank) == kStoneBlank) {
       split_line_a = GetContinuousLineWithDirection(
           directional_blank.MoveForDirection(direction), stone, direction);
     }
 
-    undirectional_blank = main_line.UndirectionalBlank();
+    undirectional_blank = main_line.UndirectionalBlank(direction);
     if (this->stone(undirectional_blank) == kStoneBlank) {
       split_line_b = GetContinuousLineWithDirection(
           undirectional_blank.MoveAgainstDirection(direction), stone, direction);

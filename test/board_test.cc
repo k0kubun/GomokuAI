@@ -63,6 +63,16 @@ TEST (Board, IsBannedPoint) {
     board.set_stone(2, 0, kStoneBlack);
     EXPECT_EQ(true, board.IsBannedPoint(0, 0, kStoneBlack));
   }
+
+  if (kAllowed4x4[kStoneBlack] == false) {
+    board.set_stone(0, 1, kStoneBlack);
+    board.set_stone(0, 2, kStoneBlack);
+    board.set_stone(0, 3, kStoneBlack);
+    board.set_stone(2, 0, kStoneBlack);
+    board.set_stone(3, 0, kStoneBlack);
+    board.set_stone(4, 0, kStoneBlack);
+    EXPECT_EQ(true, board.IsBannedPoint(0, 0, kStoneBlack));
+  }
 }
 
 TEST (Board, IsInTheBoard) {
