@@ -7,9 +7,9 @@
 #include "rule.h"
 
 enum StoneType {
-  kStoneBlank = -1,
   kStoneBlack = 0,
   kStoneWhite = 1,
+  kStoneBlank = 2,
 };
 
 enum BannedReason {

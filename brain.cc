@@ -12,7 +12,7 @@ Position Brain::GetPutPosition(Board board) {
   Board::Line line;
   Position put_position;
 
-  line = board.FindAliveDiscontinuousLine(4, kStoneWhite);
+  line = board.FindAliveDiscontinuousLine(4, opponent_stone());
   if (line.Exists()) {
     return GetStopPosition(board, line);
   }
@@ -27,6 +27,10 @@ StoneType Brain::own_stone() {
 void Brain::set_own_stone(StoneType own_stone) {
   own_stone_ = own_stone;
   opponent_stone_ = OppositeStone(own_stone);
+}
+
+StoneType Brain::opponent_stone() {
+  return opponent_stone_;
 }
 
 Position Brain::GetEmptyPosition(Board board) {

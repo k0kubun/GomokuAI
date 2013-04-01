@@ -12,6 +12,7 @@ class Brain {
 
   StoneType own_stone();
   void set_own_stone(StoneType own_stone);
+  StoneType opponent_stone();
   
  private:
   Position GetEmptyPosition(Board board);
