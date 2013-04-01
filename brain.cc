@@ -17,6 +17,11 @@ Position Brain::GetPutPosition(Board board) {
     return GetStopPosition(board, line);
   }
   
+  line = board.FindAliveDiscontinuousLine(3, opponent_stone());
+  if (line.Exists()) {
+    return GetStopPosition(board, line);
+  }
+  
   return GetEmptyPosition(board);
 }
 
