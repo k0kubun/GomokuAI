@@ -131,7 +131,7 @@ int Board::Line::BlankNumIn(Board board) {
 bool Board::Line::IsAliveIn(Board board) {
   Position split_point = this->SplitPoint();
   if (split_point.Exists()) {
-    if (board.stone(split_point) == kStoneBlank) {
+    if (board.stone(split_point) != kStoneBlank) {
       return false;
     }
   }

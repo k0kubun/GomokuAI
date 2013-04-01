@@ -17,12 +17,32 @@ class BoardTest : public Board {
     board.set_stone(0, 3, kStoneBlank);
     line = board.GetDiscontinuousLineWithDirection(
         0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
-    EXPECT_EQ(4, line.DiscontinuousLength());
+    EXPECT_EQ(3, line.DiscontinuousLength());
 
     board = BoardTest();
     line = board.GetDiscontinuousLineWithDirection(
         0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
     EXPECT_EQ(false, line.Exists());
+
+    board = BoardTest();
+    board.set_stone(7, 12, kStoneWhite);
+    board.set_stone(9, 14, kStoneWhite);
+    board.set_stone(10, 15, kStoneWhite);
+    line = board.GetDiscontinuousLineWithDirection(
+        7, 12, kStoneWhite, kDirectionVector[kDirection45Degree]);
+    EXPECT_EQ(3, line.DiscontinuousLength());
+    EXPECT_EQ(true, line.IsAliveIn(board));
+  }
+
+  static void TestGetMaxLengthAliveDiscontinuousLine() {
+    BoardTest board;
+    Board::Line line;
+    board.set_stone(7, 12, kStoneWhite);
+    board.set_stone(9, 14, kStoneWhite);
+    board.set_stone(10, 15, kStoneWhite);
+
+    line = board.GetMaxLengthAliveDiscontinuousLine(7, 12, kStoneWhite);
+    EXPECT_EQ(3, line.DiscontinuousLength());
   }
 };
 
@@ -85,3 +105,16 @@ TEST (Board, IsInTheBoard) {
 TEST (Board, GetDiscontinuousLineWithDirection) {
   BoardTest::TestGetDiscontinuousLineWithDirection();
 }
+
+// TEST (Board, GetMaxLengthAliveDiscontinuousLine) {
+//   BoardTest::TestGetMaxLengthAliveDiscontinuousLine();
+// }
+
+// TEST (Board, MaxLineLength) {
+//   Board board;
+//   board.set_stone(7, 12, kStoneWhite);
+//   board.set_stone(9, 14, kStoneWhite);
+//   board.set_stone(10, 15, kStoneWhite);
+  
+//   EXPECT_EQ(3, board.MaxLineLength());
+// }

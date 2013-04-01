@@ -124,4 +124,14 @@ TEST (Line, IsAliveIn) {
   line.Append(0, 1);
   line.Append(0, 2);
   EXPECT_EQ(true, line.IsAliveIn(board));
+
+  board = Board();
+  board.set_stone(7, 12, kStoneBlack);
+  board.set_stone(9, 14, kStoneBlack);
+  board.set_stone(10, 15, kStoneBlack);
+  line = Board::Line(kStoneBlack);
+  line.Append(7, 12);
+  line.Append(9, 14);
+  line.Append(10, 15);
+  EXPECT_EQ(true, line.IsAliveIn(board));
 }
