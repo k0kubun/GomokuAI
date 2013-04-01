@@ -7,8 +7,13 @@ all: board.cc line.cc board.h test/board_test.cc test/line_test.cc
 	g++ -o test/line.test line_test.o gtest/gtest_main.o gtest/gtest-all.o
 	rm line_test.o
 
+	g++ -c test/brain_test.cc
+	g++ -o test/brain.test brain_test.o gtest/gtest_main.o gtest/gtest-all.o
+	rm brain_test.o
+
 	./test/board.test
 	./test/line.test
+	./test/brain.test	
 
 board: board.cc board.h test/board_test.cc
 	g++ -c test/board_test.cc

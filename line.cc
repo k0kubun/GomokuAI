@@ -216,11 +216,11 @@ Position Board::Line::DirectionalBlank(Vector direction) {
 
 Position Board::Line::UndirectionalBlank() {
   Vector direction = this->DirectionVector();
-  return this->DirectionalEdge(direction).MoveForDirection(direction);
+  return this->UndirectionalEdge(direction).MoveAgainstDirection(direction);
 }
 
 Position Board::Line::UndirectionalBlank(Vector direction) {
-  return this->DirectionalEdge(direction).MoveForDirection(direction);
+  return this->UndirectionalEdge(direction).MoveAgainstDirection(direction);
 }
 
 Position Board::Line::SplitPoint() {

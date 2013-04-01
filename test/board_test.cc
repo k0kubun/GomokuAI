@@ -17,7 +17,7 @@ class BoardTest : public Board {
     board.set_stone(0, 3, kStoneBlank);
     line = board.GetDiscontinuousLineWithDirection(
         0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
-    EXPECT_EQ(3, line.DiscontinuousLength());
+    EXPECT_EQ(4, line.DiscontinuousLength());
 
     board = BoardTest();
     line = board.GetDiscontinuousLineWithDirection(
@@ -40,9 +40,38 @@ class BoardTest : public Board {
     board.set_stone(7, 12, kStoneWhite);
     board.set_stone(9, 14, kStoneWhite);
     board.set_stone(10, 15, kStoneWhite);
-
     line = board.GetMaxLengthAliveDiscontinuousLine(7, 12, kStoneWhite);
     EXPECT_EQ(3, line.DiscontinuousLength());
+
+    board = BoardTest();
+    board.set_stone(10, 10, kStoneWhite);
+    board.set_stone(9, 9, kStoneBlack);
+    board.set_stone(10, 9, kStoneWhite);
+    board.set_stone(10, 11, kStoneBlack);
+    board.set_stone(9, 10, kStoneWhite);
+    board.set_stone(11, 10, kStoneBlack);
+    board.set_stone(12, 9, kStoneWhite);
+    board.set_stone(9, 12, kStoneBlack);
+    board.set_stone(8, 11, kStoneWhite);
+    board.set_stone(8, 13, kStoneBlack);
+    board.set_stone(7, 14, kStoneWhite);
+    board.set_stone(7, 12, kStoneBlack);
+    board.set_stone(8, 12, kStoneWhite);
+    board.set_stone(9, 14, kStoneBlack);
+    board.set_stone(6, 11, kStoneWhite);
+    board.set_stone(10, 15, kStoneBlack);
+    board.set_stone(11, 16, kStoneWhite);
+    board.set_stone(9, 11, kStoneBlack);
+    board.set_stone(10, 13, kStoneWhite);
+    board.set_stone(11, 11, kStoneBlack);
+    board.set_stone(11, 8, kStoneWhite);
+    //line = board.GetMaxLengthAliveDiscontinuousLine(11, 8, kStoneWhite);
+    line = board.GetMaxLengthContinuousLine(11, 8, kStoneWhite);
+    
+    EXPECT_EQ(4, line.DiscontinuousLength());
+    // EXPECT_EQ(4, board.MaxLineLength());
+    EXPECT_EQ(true, line.IsAliveIn(board));
+    
   }
 };
 

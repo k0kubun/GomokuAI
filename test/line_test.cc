@@ -23,6 +23,22 @@ TEST (Line, IsLine) {
   EXPECT_EQ(false, line.IsLine());
 }
 
+TEST (Line, BlankNumIn) {
+  Board board;
+  board.set_stone(7, 12, kStoneBlack);
+  board.set_stone(8, 11, kStoneWhite);
+  board.set_stone(9, 10, kStoneWhite);
+  board.set_stone(10, 9, kStoneWhite);
+  board.set_stone(11, 8, kStoneWhite);
+
+  Board::Line line(kStoneWhite);
+  line.Append(8, 11);
+  line.Append(9, 10);
+  line.Append(10, 9);
+  line.Append(11, 8);
+  EXPECT_EQ(1, line.BlankNumIn(board));
+}
+
 TEST (Line, Append) {
   Board::Line line_a, line_b;
   line_a = Board::Line::LineMake(Position(0,1), Position(0,2));
