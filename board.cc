@@ -156,20 +156,25 @@ Board::Line Board::GetContinuousLineWithDirection(Position point,
                                                   Vector direction) {
   Line line(stone);
   Position append_point;
+
   if (this->stone(point) == stone) {
-    line.Append(point);
-    append_point = point;
-    while (append_point.MoveForDirection(direction).IsInTheBoard() &&
-           this->stone(append_point) == stone) {
-      line.Append(append_point);
+    if (this->stone(point) == stone) {
+      line.Append(point);
+      append_point = point;
+      while (append_point.MoveForDirection(direction).IsInTheBoard() &&
+             this->stone(append_point) == stone) {
+        line.Append(append_point);
+      }
+      append_point = point;
+      while (append_point.MoveAgainstDirection(direction).IsInTheBoard() &&
+             this->stone(append_point) == stone) {
+        line.Append(append_point);
+      }
     }
-    append_point = point;
-    while (append_point.MoveAgainstDirection(direction).IsInTheBoard() &&
-           this->stone(append_point) == stone) {
-      line.Append(append_point);
-    }
+    return line;
+  } else {
+    return Line::Null();
   }
-  return line;
 }
 
 Board::Line Board::GetContinuousLineWithDirection(int x, int y, StoneType stone,
@@ -182,27 +187,31 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      Vector direction) {
   Line main_line, split_line_a, split_line_b;
   Position directional_blank, undirectional_blank;
-  
-  main_line = GetContinuousLineWithDirection(x, y, stone, direction);
-  
-  directional_blank = main_line.DirectionalBlank();
-  if (this->stone(directional_blank) == kStoneBlank) {
-    split_line_a = GetContinuousLineWithDirection(
-        directional_blank.MoveForDirection(direction), stone, direction);
-  }
 
-  undirectional_blank = main_line.UndirectionalBlank();
-  if (this->stone(undirectional_blank) == kStoneBlank) {
-    split_line_b = GetContinuousLineWithDirection(
-        undirectional_blank.MoveAgainstDirection(direction), stone, direction);
-  }
+  if (this->stone(x, y) == stone) {
+    main_line = GetContinuousLineWithDirection(x, y, stone, direction);
+  
+    directional_blank = main_line.DirectionalBlank();
+    if (this->stone(directional_blank) == kStoneBlank) {
+      split_line_a = GetContinuousLineWithDirection(
+          directional_blank.MoveForDirection(direction), stone, direction);
+    }
 
-  if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {
-    main_line.Append(split_line_a);
+    undirectional_blank = main_line.UndirectionalBlank();
+    if (this->stone(undirectional_blank) == kStoneBlank) {
+      split_line_b = GetContinuousLineWithDirection(
+          undirectional_blank.MoveAgainstDirection(direction), stone, direction);
+    }
+
+    if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {
+      main_line.Append(split_line_a);
+    } else {
+      main_line.Append(split_line_b);
+    }
+    return main_line;
   } else {
-    main_line.Append(split_line_b);
+    return Line::Null();
   }
-  return main_line;
 }
 
 Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {
