@@ -2,6 +2,30 @@
 #include "../line.cc"
 #include "../board.cc"
 
+class BoardTest : public Board {
+ public:
+  static void TestGetDiscontinuousLineWithDirection() {
+    BoardTest board;
+    Board::Line line;
+    for (int i = 0; i < 5; i++) {
+      board.set_stone(0, i, kStoneBlack);
+    }
+    line = board.GetDiscontinuousLineWithDirection(
+        0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
+    EXPECT_EQ(5, line.ContinuousLength());
+
+    board.set_stone(0, 3, kStoneBlank);
+    line = board.GetDiscontinuousLineWithDirection(
+        0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
+    EXPECT_EQ(4, line.DiscontinuousLength());
+
+    board = BoardTest();
+    line = board.GetDiscontinuousLineWithDirection(
+        0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
+    EXPECT_EQ(false, line.Exists());
+  }
+};
+
 TEST (Board, HasWinner) {
   Board board;
   for (int i = 0; i < 5; i++) {
@@ -47,34 +71,6 @@ TEST (Board, IsInTheBoard) {
   EXPECT_EQ(false, Board::IsInTheBoard(kBoardSize, kBoardSize));
 }
 
-// TEST (Board, GetContinuousLineWithDirection) {
-//   Board board;
-//   Board::Line line;
-//   for (int i = 0; i < 5; i++) {
-//     board.set_stone(0, i, kStoneBlack);
-//   }
-//   line = board.GetContinuousLineWithDirection(
-//       0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
-//   EXPECT_EQ(5, line.ContinuousLength());
-  
-//   board.set_stone(0, 3, kStoneBlank);
-//   line = board.GetContinuousLineWithDirection(
-//       0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);    
-//   EXPECT_EQ(3, line.ContinuousLength());
-// }
-
-// TEST (Board, GetDiscontinuousLineWithDirection) {
-//   Board board;
-//   Board::Line line;
-//   for (int i = 0; i < 5; i++) {
-//     board.set_stone(0, i, kStoneBlack);
-//   }
-//   line = board.GetDiscontinuousLineWithDirection(
-//       0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
-//   EXPECT_EQ(5, line.ContinuousLength());
-
-//   board.set_stone(0, 3, kStoneBlank);
-//   line = board.GetDiscontinuousLineWithDirection(
-//       0, 0, kStoneBlack, kDirectionVector[kDirectionVertical]);
-//   EXPECT_EQ(4, line.DiscontinuousLength());
-// }
+TEST (Board, GetDiscontinuousLineWithDirection) {
+  BoardTest::TestGetDiscontinuousLineWithDirection();
+}
