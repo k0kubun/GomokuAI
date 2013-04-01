@@ -17,7 +17,7 @@ bool Board::HasWinner(StoneType stone) {
 }
 
 bool Board::IsBannedPoint(int x, int y, StoneType stone) {
-  return false;
+  return GetBannedReason(x, y, stone) != kNoBan;
 }
 
 bool Board::AllowsToPut(Position point) {
