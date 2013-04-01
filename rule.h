@@ -1,7 +1,7 @@
 #ifndef RULE_H_
 #define RULE_H_
 
-// You can decide rule by changing these consts
+// This is the rule for gomocup
 const int  kBoardSize = 20;
 const bool kAllowed3x3[2] = {
   true,  // Black
