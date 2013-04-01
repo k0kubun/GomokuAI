@@ -101,7 +101,7 @@ class Board {
   void set_stone(int x, int y, StoneType stone);
   void set_stone(Position point, StoneType stone);
   
- private:
+ protected:
   Line GetContinuousLineWithDirection(Position point, StoneType stone,
                                       Vector direction);  
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
