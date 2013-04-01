@@ -47,10 +47,18 @@ StoneType Brain::opponent_stone() {
 }
 
 Position Brain::GetEmptyPoint(Board board) {
-  for (int i = 0; i < kBoardSize; i++) {
-    for (int j = 0; j < kBoardSize; j++) {
-      if (board.stone(i, j) == kStoneBlank) {
-        return Position(i, j);
+  int center = kBoardSize;
+  if (center % 2 != 0) {
+    center--;
+  }
+  center /= 2;
+      
+  for (int limit = 0; limit < center; limit++) {
+    for (int i = center - limit; i <= center + limit; i++) {
+      for (int j = center - limit; j <= center + limit; j++) {
+        if (board.stone(i, j) == kStoneBlank) {
+          return Position(i, j);
+        }
       }
     }
   }
