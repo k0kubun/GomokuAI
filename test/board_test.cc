@@ -106,15 +106,15 @@ TEST (Board, GetDiscontinuousLineWithDirection) {
   BoardTest::TestGetDiscontinuousLineWithDirection();
 }
 
-// TEST (Board, GetMaxLengthAliveDiscontinuousLine) {
-//   BoardTest::TestGetMaxLengthAliveDiscontinuousLine();
-// }
+TEST (Board, GetMaxLengthAliveDiscontinuousLine) {
+  BoardTest::TestGetMaxLengthAliveDiscontinuousLine();
+}
 
-// TEST (Board, MaxLineLength) {
-//   Board board;
-//   board.set_stone(7, 12, kStoneWhite);
-//   board.set_stone(9, 14, kStoneWhite);
-//   board.set_stone(10, 15, kStoneWhite);
+TEST (Board, MaxLineLength) {
+  Board board;
+  board.set_stone(7, 12, kStoneWhite);
+  board.set_stone(9, 14, kStoneWhite);
+  board.set_stone(10, 15, kStoneWhite);
   
-//   EXPECT_EQ(3, board.MaxLineLength());
-// }
+  EXPECT_EQ(3, board.MaxLineLength());
+}
