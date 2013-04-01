@@ -1,7 +1,7 @@
 #ifndef RULE_H_
 #define RULE_H_
 
-// You can decide rule by changing these consts
+// Renju Rule
 const int  kBoardSize = 15;
 const bool kAllowed3x3[2] = {
   false, // Black
