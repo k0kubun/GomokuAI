@@ -54,15 +54,16 @@ TEST (Board, FindContinuousLineByLength) {
   }
 }
 
-// TEST (Board, GetMaxLengthContinuousLine) {
-//   Board board;
-//   Board::Line line;
-//   for (int i = 0; i < 5; i++) {
-//     board.set_stone(0, i, kStoneBlack);
-//     line = board.GetMaxLengthContinuousLine(0, 0, kStoneBlack);
-//     EXPECT_EQ(i + 1, line.ContinuousLength());
-//   }
-// }
+TEST (Board, IsBannedPoint) {
+  Board board;
+  if (kAllowed3x3[kStoneBlack] == false) {
+    board.set_stone(0, 1, kStoneBlack);
+    board.set_stone(0, 2, kStoneBlack);
+    board.set_stone(1, 0, kStoneBlack);
+    board.set_stone(2, 0, kStoneBlack);
+    EXPECT_EQ(true, board.IsBannedPoint(0, 0, kStoneBlack));
+  }
+}
 
 TEST (Board, IsInTheBoard) {
   EXPECT_EQ(true, Board::IsInTheBoard(0, 0));

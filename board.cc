@@ -38,7 +38,8 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   
   virtual_board.set_stone(x, y, stone);  
   for (int i = 0; i < kDirectionVectorNum; i++) {
-    line = GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    line = virtual_board.GetDiscontinuousLineWithDirection(
+        x, y, stone, kDirectionVector[i]);
     num_of_length[line.DiscontinuousLength()]++;
   }
 
