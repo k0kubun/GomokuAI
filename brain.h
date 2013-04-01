@@ -15,8 +15,8 @@ class Brain {
   StoneType opponent_stone();
   
  private:
-  Position GetEmptyPosition(Board board);
-  Position GetStopPosition(Board board, Board::Line line);
+  Position GetEmptyPoint(Board board);
+  Position GetExtendPoint(Board board, Board::Line line);
   StoneType OppositeStone(StoneType stone);
 
   StoneType own_stone_;

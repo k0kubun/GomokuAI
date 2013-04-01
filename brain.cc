@@ -14,15 +14,15 @@ Position Brain::GetPutPosition(Board board) {
 
   line = board.FindAliveDiscontinuousLine(4, opponent_stone());
   if (line.Exists()) {
-    return GetStopPosition(board, line);
+    return GetExtendPoint(board, line);
   }
   
   line = board.FindAliveDiscontinuousLine(3, opponent_stone());
   if (line.Exists()) {
-    return GetStopPosition(board, line);
+    return GetExtendPoint(board, line);
   }
   
-  return GetEmptyPosition(board);
+  return GetEmptyPoint(board);
 }
 
 StoneType Brain::own_stone() {
@@ -38,7 +38,7 @@ StoneType Brain::opponent_stone() {
   return opponent_stone_;
 }
 
-Position Brain::GetEmptyPosition(Board board) {
+Position Brain::GetEmptyPoint(Board board) {
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (board.stone(i, j) == kStoneBlank) {
@@ -49,7 +49,7 @@ Position Brain::GetEmptyPosition(Board board) {
   return Position(0, 0);
 }
 
-Position Brain::GetStopPosition(Board board, Board::Line line) {
+Position Brain::GetExtendPoint(Board board, Board::Line line) {
   if (line.IsContinuous()) {
     if (board.AllowsToPut(line.DirectionalBlank())) {
       return line.DirectionalBlank();
