@@ -82,7 +82,7 @@ class Board {
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
   bool AllowsToPut(Position point);
-  BannedReason BannedReason(int x, int y, StoneType stone);
+  BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   int  NumOf(StoneType stone);
   Line FindAliveDiscontinuousLine(int length, StoneType stone);

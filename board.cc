@@ -21,14 +21,14 @@ bool Board::HasWinner(StoneType stone) {
 }
 
 bool Board::IsBannedPoint(int x, int y, StoneType stone) {
-  return BannedReason(x, y, stone) != kNoBan;
+  return GetBannedReason(x, y, stone) != kNoBan;
 }
 
 bool Board::AllowsToPut(Position point) {
   return this->stone(point) == kStoneBlank && point.IsInTheBoard();
 }
 
-BannedReason Board::BannedReason(int x, int y, StoneType stone) {
+BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   Board::Line line;
   int num_of_length[kBoardSize + 1];
