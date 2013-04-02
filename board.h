@@ -98,8 +98,7 @@ class Board {
                                                      StoneType stone);
   Position FindMultipleLineMakablePoint(int first_length, int second_length,
                                         StoneType stone);
-  Position FindMultipleLineMakablePointMakablePoint(int least_length,
-                                                    StoneType stone);
+  Position FindMultipleLine2MakablePoint(int least_length, StoneType stone);
   Position GetExtendPoint(Line line);
   
   static bool IsInTheBoard(int x, int y) {

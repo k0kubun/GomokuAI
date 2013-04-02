@@ -209,7 +209,7 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
         virtual_board.set_stone(i, j, stone);
         line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
         if (line.IsAliveIn(virtual_board) &&
-            line.DiscontinuousLength() == first_length) {
+            line.DiscontinuousLength() >= first_length) {
           std::list<int> length_list =
               virtual_board.GetAliveDiscontinuousLineLengthList(i, j, stone);
           std::list<int>::iterator list_iter = length_list.begin();
@@ -225,8 +225,8 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
   return put_position;
 }
 
-Position Board::FindMultipleLineMakablePointMakablePoint(int least_length,
-                                                         StoneType stone) {
+Position Board::FindMultipleLine2MakablePoint(int least_length,
+                                              StoneType stone) {
   Board virtual_board;
   Position put_position = Position::Null();
   Board::Line line;
@@ -237,8 +237,9 @@ Position Board::FindMultipleLineMakablePointMakablePoint(int least_length,
         virtual_board.set_stone(i, j, stone);
         line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
         if (line.DiscontinuousLength() >= least_length) {
-          Position winning_point =
-              virtual_board.FindMultipleLineMakablePoint(least_length, 3, stone);
+          virtual_board.set_stone(line.GetExtendPoint(line));
+          Position winning_point = virtual_board.
+              FindMultipleLineMakablePoint(least_length, 3, stone);
           if (winning_point.Exists()) {
             return Position(i, j);
           }
