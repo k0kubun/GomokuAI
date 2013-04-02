@@ -29,34 +29,86 @@ Position Brain::GetPutPoint(Board board) {
   Board::Line line;
   Position put_point;
 
-  for (int i = board.MaxLineLength(); i > 0; i--) {
-    put_point = FindMultipleLineMakablePoint(board, i + 1);
-    if (put_point.Exists()) {
+  line = board.FindAliveDiscontinuousLine(4, own_stone());
+  if (line.Exists()) {
+    put_point = GetExtendPoint(board, line);
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
+      return put_point;
+    }    
+  }
+  line = board.FindAliveDiscontinuousLine(4, opponent_stone());
+  if (line.Exists()) {
+    put_point = GetExtendPoint(board, line);
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
     }
-    // line = board.FindAliveDiscontinuousLine(i, own_stone());
-    // if (line.Exists()) {
-    //   put_point = GetExtendPoint(board, line);
-    //   if (put_point.Exists() &&
-    //       board.IsBannedPoint(put_point, own_stone()) == false) {
-    //     return put_point;
-    //   }
-    // }
+  }
 
-    line = board.FindAliveDiscontinuousLine(i, opponent_stone());
-    if (line.Exists()) {
-      put_point = GetExtendPoint(board, line);
-      if (put_point.Exists() &&
-          board.IsBannedPoint(put_point, own_stone()) == false) {
-        return put_point;
-      }
+  put_point = FindMultipleLineMakablePoint(board, 4, 4, own_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+  put_point = FindMultipleLineMakablePoint(board, 4, 3, own_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+
+  put_point = FindMultipleLineMakablePoint(board, 4, 4, opponent_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+  put_point = FindMultipleLineMakablePoint(board, 4, 3, opponent_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+
+  line = board.FindAliveDiscontinuousLine(3, own_stone());
+  if (line.Exists()) {
+    put_point = GetExtendPoint(board, line);
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
+      return put_point;
     }
+  }
+  line = board.FindAliveDiscontinuousLine(3, opponent_stone());
+  if (line.Exists()) {
+    put_point = GetExtendPoint(board, line);
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
+      return put_point;
+    }
+  }
+
+  put_point = FindMultipleLineMakablePoint(board, 3, 3, own_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+  put_point = FindMultipleLineMakablePoint(board, 3, 3, opponent_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+
+  line = board.FindAliveDiscontinuousLine(2, own_stone());
+  if (line.Exists()) {
+    put_point = GetExtendPoint(board, line);
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
+      return put_point;
+    }
+  }
+  
+  put_point = FindMultipleLineMakablePoint(board, 2, 2, own_stone());
+  if (put_point.Exists()) {
+    return put_point;
   }
   
   return GetEmptyPoint(board);
 }
 
-Position Brain::FindMultipleLineMakablePoint(Board board, int length) {
+Position Brain::FindMultipleLineMakablePoint(Board board, int first_length,
+                                             int second_length, StoneType stone) {
   Board virtual_board;
   Board::Line line;
   Position put_position = Position::Null();
@@ -66,14 +118,15 @@ Position Brain::FindMultipleLineMakablePoint(Board board, int length) {
     for (int j = 0; j < kBoardSize; j++) {
       if (board.stone(i, j) == kStoneBlank) {
         virtual_board = board;
-        virtual_board.set_stone(i, j, own_stone());
-        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, own_stone());
-        if (line.DiscontinuousLength() >= length) {
+        virtual_board.set_stone(i, j, stone);
+        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
+        if (line.IsAliveIn(virtual_board) &&
+            line.DiscontinuousLength() == first_length) {
           std::list<int> length_list =
-              virtual_board.GetAliveDiscontinuousLineLengthList(i, j, own_stone());
+              virtual_board.GetAliveDiscontinuousLineLengthList(i, j, stone);
           std::list<int>::iterator list_iter = length_list.begin();
           list_iter++;
-          if (max_length < *list_iter) {
+          if (second_length == *list_iter) {
             max_length = *list_iter;
             put_position = Position(i, j);
           }
