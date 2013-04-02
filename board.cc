@@ -225,7 +225,7 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
   return put_position;
 }
 
-Position Board::FindMultipleLine2MakablePoint(int least_length,
+Position Board::FindMultipleLinePreMakablePoint(int least_length,
                                               StoneType stone) {
   Board virtual_board;
   Position put_position = Position::Null();
