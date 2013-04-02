@@ -194,12 +194,79 @@ std::list<int> Board::GetAliveDiscontinuousLineLengthList(int x, int y,
   return length_list;
 }
 
+bool Board::IsWinningPoint(Position point, int least_length, StoneType stone) {
+  Board virtual_board;
+  Board::Line line;
+  
+  if (this->stone(point) == kStoneBlank) {
+    virtual_board = *this;
+    virtual_board.set_stone(point, stone);
+    line = virtual_board.GetMaxLengthAliveDiscontinuousLine(point.x,
+                                                            point.y, stone);
+    if (line.IsAliveIn(virtual_board) &&
+        line.DiscontinuousLength() >= least_length) {
+      std::list<int> length_list =
+          virtual_board.GetAliveDiscontinuousLineLengthList(point.x,
+                                                            point.y, stone);
+      std::list<int>::iterator list_iter = length_list.begin();
+      list_iter++;
+      if (3 <= *list_iter) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+int Board::WinningPointNum(int least_length, StoneType stone) {
+  int num;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (IsWinningPoint(Position(i, j), least_length, stone) == true) {
+        num++;
+      }
+    }
+  }
+  return num;
+}
+
+Position Board::FindLeadWinningPoint(int least_length, StoneType stone,
+                                     int count) {
+  Board virtual_board;
+  Board::Line line;
+
+  if (this->WinningPointNum(least_length, stone) > 0) {
+    return Point::Null();
+  }
+  
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (this->stone(i, j) == kStoneBlank) {
+        virtual_board = *this;
+        this.set_stone(i, j, stone);
+
+        if (virtual_board.WinningPointNum(least_length, stone) >= 2) {
+          return Position(i, j);
+        }
+
+        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
+        if (line.DiscontinuousLength() >= 3) {
+          virtual_board.set_stone(virtual_board.GetExtendPoint(line),
+                                  OppositeStone(stone));
+          if (virtual_board.WinningPointNum(least_length, stone) == 1) {
+            return Position(i, j);
+          }
+        }
+      }
+    }
+  }
+}
+
 Position Board::FindMultipleLineMakablePoint(int first_length,
                                              int second_length,
                                              StoneType stone) {
   Board virtual_board;
   Board::Line line;
-  Position put_position = Position::Null();
   int max_length = -1;
   
   for (int i = 0; i < kBoardSize; i++) {
@@ -215,40 +282,6 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
           std::list<int>::iterator list_iter = length_list.begin();
           list_iter++;
           if (second_length <= *list_iter) {
-            max_length = *list_iter;
-            put_position = Position(i, j);
-          }
-        }
-      }
-    }
-  }
-  return put_position;
-}
-
-Position Board::FindMultipleLine2MakablePoint(int least_length,
-                                              StoneType stone) {
-  Board virtual_board;
-  Position put_position = Position::Null();
-  Board::Line line;
-  
-  Position point = virtual_board.
-      FindMultipleLineMakablePoint(least_length, 3, stone);
-  if (point.Exists()) {
-    return Position::Null();
-  }
-  
-  for (int i = 0; i < kBoardSize; i++) {
-    for (int j = 0; j < kBoardSize; j++) {
-      if (this->stone(i, j) == kStoneBlank) {
-        virtual_board = *this;
-        virtual_board.set_stone(i, j, stone);
-        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
-        if (line.DiscontinuousLength() >= least_length) {
-          virtual_board.set_stone(virtual_board.GetExtendPoint(line),
-                                  OppositeStone(stone));
-          Position winning_point = virtual_board.
-              FindMultipleLineMakablePoint(least_length, 3, stone);
-          if (winning_point.Exists()) {
             return Position(i, j);
           }
         }
