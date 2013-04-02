@@ -29,7 +29,7 @@ Position Brain::GetPutPoint(Board board) {
   Board::Line line;
   Position put_point;
 
-  for (int i = 7; i >= 5; i--) {
+  for (int i = kBoardSize; i >= 5; i--) {
     line = board.FindAliveDiscontinuousLine(i, opponent_stone());
     if (line.Exists()) {
       put_point = board.GetExtendPoint(line);
