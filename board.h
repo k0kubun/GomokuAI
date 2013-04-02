@@ -93,6 +93,9 @@ class Board {
   Line FindContinuousLineByLength(int length, StoneType stone);
   Line FindContinuousLineWithLengthAtLeast(int least_length);
   Line FindContinuousLineWithLengthAtLeast(int least_length, StoneType stone);
+  Line GetMaxLengthAliveDiscontinuousLine(int x, int y, StoneType stone);
+  std::list<int> GetAliveDiscontinuousLineLengthList(int x, int y,
+                                                     StoneType stone);
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
@@ -113,7 +116,6 @@ class Board {
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
                                          Vector direction);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
-  Line GetMaxLengthAliveDiscontinuousLine(int x, int y, StoneType stone);
   
   StoneType stone_[kBoardSize][kBoardSize];
 };

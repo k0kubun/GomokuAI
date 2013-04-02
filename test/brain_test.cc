@@ -11,7 +11,7 @@ TEST (Line, DirectionVector) {
   board.set_stone(13, 13, kStoneBlack);
   board.set_stone(14, 14, kStoneBlack);
   board.set_stone(15, 15, kStoneBlack);
-  Position put_point = brain.GetPutPosition(board);  
+  Position put_point = brain.GetPutPoint(board);  
   EXPECT_EQ(16, put_point.x);
   EXPECT_EQ(16, put_point.y);
 
@@ -37,7 +37,7 @@ TEST (Line, DirectionVector) {
   board.set_stone(10, 13, kStoneWhite);
   board.set_stone(11, 11, kStoneBlack);
   board.set_stone(11, 8, kStoneWhite);
-  put_point = brain.GetPutPosition(board);  
+  put_point = brain.GetPutPoint(board);  
   EXPECT_EQ(12, put_point.x);
   EXPECT_EQ(7, put_point.y);
   EXPECT_EQ(4, board.MaxLineLength());

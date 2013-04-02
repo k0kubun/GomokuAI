@@ -9,7 +9,8 @@ class Brain {
   
   void PutStone(Board board);
   void PrintBoard(Board board);
-  Position GetPutPosition(Board board);
+  Position GetPutPoint(Board board);
+  Position FindMultipleLineMakablePoint(Board board, int length);
 
   StoneType own_stone();
   void set_own_stone(StoneType own_stone);

@@ -5,7 +5,7 @@ Brain::Brain(StoneType own_stone) {
 }
 
 void Brain::PutStone(Board board) {
-  board.set_stone(GetPutPosition(board), this->own_stone());
+  board.set_stone(GetPutPoint(board), this->own_stone());
 }
 
 void Brain::PrintBoard(Board board) {
@@ -25,29 +25,63 @@ void Brain::PrintBoard(Board board) {
   }
 }
 
-Position Brain::GetPutPosition(Board board) {
+Position Brain::GetPutPoint(Board board) {
   Board::Line line;
   Position put_point;
 
   for (int i = board.MaxLineLength(); i > 0; i--) {
-    line = board.FindAliveDiscontinuousLine(i, own_stone());
-    if (line.Exists()) {
-      put_point = GetExtendPoint(board, line);
-      if (board.IsBannedPoint(put_point, own_stone()) == false) {
-        return put_point;
-      }
+    put_point = FindMultipleLineMakablePoint(board, i + 1);
+    if (put_point.Exists()) {
+      return put_point;
     }
+    // line = board.FindAliveDiscontinuousLine(i, own_stone());
+    // if (line.Exists()) {
+    //   put_point = GetExtendPoint(board, line);
+    //   if (put_point.Exists() &&
+    //       board.IsBannedPoint(put_point, own_stone()) == false) {
+    //     return put_point;
+    //   }
+    // }
 
     line = board.FindAliveDiscontinuousLine(i, opponent_stone());
     if (line.Exists()) {
       put_point = GetExtendPoint(board, line);
-      if (board.IsBannedPoint(put_point, own_stone()) == false) {
+      if (put_point.Exists() &&
+          board.IsBannedPoint(put_point, own_stone()) == false) {
         return put_point;
       }
     }
   }
   
   return GetEmptyPoint(board);
+}
+
+Position Brain::FindMultipleLineMakablePoint(Board board, int length) {
+  Board virtual_board;
+  Board::Line line;
+  Position put_position = Position::Null();
+  int max_length = -1;
+  
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (board.stone(i, j) == kStoneBlank) {
+        virtual_board = board;
+        virtual_board.set_stone(i, j, own_stone());
+        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, own_stone());
+        if (line.DiscontinuousLength() >= length) {
+          std::list<int> length_list =
+              virtual_board.GetAliveDiscontinuousLineLengthList(i, j, own_stone());
+          std::list<int>::iterator list_iter = length_list.begin();
+          list_iter++;
+          if (max_length < *list_iter) {
+            max_length = *list_iter;
+            put_position = Position(i, j);
+          }
+        }
+      }
+    }
+  }
+  return put_position;
 }
 
 StoneType Brain::own_stone() {
@@ -79,7 +113,7 @@ Position Brain::GetEmptyPoint(Board board) {
       }
     }
   }
-  return Position(0, 0);
+  return Position::Null();
 }
 
 Position Brain::GetExtendPoint(Board board, Board::Line line) {
@@ -94,6 +128,7 @@ Position Brain::GetExtendPoint(Board board, Board::Line line) {
   } else {
     return line.SplitPoint();
   }
+  return GetEmptyPoint(board);
 }
 
 StoneType Brain::OppositeStone(StoneType stone) {

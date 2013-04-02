@@ -45,7 +45,7 @@ void Gomocup::Start() {
 }
 
 void Gomocup::PrintAIPutPosition(StoneType play_stone) {
-  Position put_position = Brain(play_stone).GetPutPosition(board_);
+  Position put_position = Brain(play_stone).GetPutPoint(board_);
   board_.set_stone(put_position, play_stone);
   printf("%d,%d\n", put_position.x, put_position.y);
 }

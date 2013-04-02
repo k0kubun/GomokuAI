@@ -161,6 +161,39 @@ Board::Line Board::FindContinuousLineWithLengthAtLeast(int least_length,
   return Line::Null();
 }
 
+Board::Line Board::GetMaxLengthAliveDiscontinuousLine(int x, int y,
+                                                 StoneType stone) {
+  Line current_line, longest_line = Line::Null();
+  for (int i = 0; i < kDirectionVectorNum; i++) {
+    current_line =
+        GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    
+    if (current_line.IsAliveIn(*this) &&
+        current_line.DiscontinuousLength() >
+        longest_line.DiscontinuousLength()) {
+      longest_line = current_line;      
+    }
+  }
+  return longest_line;
+}
+
+std::list<int> Board::GetAliveDiscontinuousLineLengthList(int x, int y,
+                                                          StoneType stone) {
+  Line current_line;
+  std::list<int> length_list;
+  for (int i = 0; i < kDirectionVectorNum; i++) {
+    current_line =
+        GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
+    if (current_line.IsAliveIn(*this)) {
+      length_list.push_back(current_line.DiscontinuousLength());
+    }
+  }
+  length_list.push_back(0); // Because brain access second member
+  length_list.sort();
+  length_list.reverse();
+  return length_list;
+}
+
 StoneType Board::stone(int x, int y) {
   return stone_[x][y];
 }
@@ -246,22 +279,6 @@ Board::Line Board::GetMaxLengthContinuousLine(int x, int y, StoneType stone) {
     current_line =
         GetContinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
     if (current_line.ContinuousLength() > longest_line.ContinuousLength()) {
-      longest_line = current_line;
-    }
-  }
-  return longest_line;
-}
-
-Board::Line Board::GetMaxLengthAliveDiscontinuousLine(int x, int y,
-                                                 StoneType stone) {
-  Line current_line, longest_line = Line::Null();
-  for (int i = 0; i < kDirectionVectorNum; i++) {
-    current_line =
-        GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
-    
-    if (current_line.IsAliveIn(*this) &&
-        current_line.DiscontinuousLength() >
-        longest_line.DiscontinuousLength()) {
       longest_line = current_line;
     }
   }

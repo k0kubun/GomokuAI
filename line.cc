@@ -135,7 +135,9 @@ bool Board::Line::IsAliveIn(Board board) {
       return false;
     }
   }
-  if (this->DiscontinuousLength() == 4) {
+  if (this->DiscontinuousLength() == 5) {
+    return true;
+  } else if (this->DiscontinuousLength() == 4) {
     if (split_point.Exists()) {
       return true;
     } else {
