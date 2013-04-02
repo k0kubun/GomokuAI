@@ -46,11 +46,11 @@ Position Brain::GetPutPoint(Board board) {
     }
   }
 
-  put_point = FindMultipleLineMakablePoint(board, 4, 4, own_stone());
+  put_point = board.FindMultipleLineMakablePoint(4, 4, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }
-  put_point = FindMultipleLineMakablePoint(board, 4, 3, own_stone());
+  put_point = board.FindMultipleLineMakablePoint(4, 3, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }
@@ -72,20 +72,20 @@ Position Brain::GetPutPoint(Board board) {
     }
   }
 
-  put_point = FindMultipleLineMakablePoint(board, 4, 4, opponent_stone());
+  put_point = board.FindMultipleLineMakablePoint(4, 4, opponent_stone());
   if (put_point.Exists()) {
     return put_point;
   }
-  put_point = FindMultipleLineMakablePoint(board, 4, 3, opponent_stone());
+  put_point = board.FindMultipleLineMakablePoint(4, 3, opponent_stone());
   if (put_point.Exists()) {
     return put_point;
   }
 
-  put_point = FindMultipleLineMakablePoint(board, 3, 3, own_stone());
+  put_point = board.FindMultipleLineMakablePoint(3, 3, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }
-  put_point = FindMultipleLineMakablePoint(board, 3, 3, opponent_stone());
+  put_point = board.FindMultipleLineMakablePoint(3, 3, opponent_stone());
   if (put_point.Exists()) {
     return put_point;
   }
@@ -99,7 +99,7 @@ Position Brain::GetPutPoint(Board board) {
     }
   }
   
-  put_point = FindMultipleLineMakablePoint(board, 2, 2, own_stone());
+  put_point = board.FindMultipleLineMakablePoint(2, 2, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }

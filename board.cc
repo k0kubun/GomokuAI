@@ -194,6 +194,37 @@ std::list<int> Board::GetAliveDiscontinuousLineLengthList(int x, int y,
   return length_list;
 }
 
+Position Board::FindMultipleLineMakablePoint(int first_length,
+                                             int second_length,
+                                             StoneType stone) {
+  Board virtual_board;
+  Board::Line line;
+  Position put_position = Position::Null();
+  int max_length = -1;
+  
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (this->stone(i, j) == kStoneBlank) {
+        virtual_board = *this;
+        virtual_board.set_stone(i, j, stone);
+        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
+        if (line.IsAliveIn(virtual_board) &&
+            line.DiscontinuousLength() == first_length) {
+          std::list<int> length_list =
+              virtual_board.GetAliveDiscontinuousLineLengthList(i, j, stone);
+          std::list<int>::iterator list_iter = length_list.begin();
+          list_iter++;
+          if (second_length == *list_iter) {
+            max_length = *list_iter;
+            put_position = Position(i, j);
+          }
+        }
+      }
+    }
+  }
+  return put_position;
+}
+
 StoneType Board::stone(int x, int y) {
   return stone_[x][y];
 }

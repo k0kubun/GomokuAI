@@ -96,6 +96,9 @@ class Board {
   Line GetMaxLengthAliveDiscontinuousLine(int x, int y, StoneType stone);
   std::list<int> GetAliveDiscontinuousLineLengthList(int x, int y,
                                                      StoneType stone);
+  Position FindMultipleLineMakablePoint(int first_length, int second_length,
+                                        StoneType stone);
+  
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
