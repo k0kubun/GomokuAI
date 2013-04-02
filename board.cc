@@ -237,7 +237,8 @@ Position Board::FindMultipleLine2MakablePoint(int least_length,
         virtual_board.set_stone(i, j, stone);
         line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
         if (line.DiscontinuousLength() >= least_length) {
-          virtual_board.set_stone(line.GetExtendPoint(line));
+          virtual_board.set_stone(virtual_board.GetExtendPoint(line),
+                                  OppositeStone(stone));
           Position winning_point = virtual_board.
               FindMultipleLineMakablePoint(least_length, 3, stone);
           if (winning_point.Exists()) {
