@@ -99,7 +99,7 @@ class Board {
   Position FindMultipleLineMakablePoint(int first_length, int second_length,
                                         StoneType stone);
   Position FindMultipleLine2MakablePoint(int least_length, StoneType stone);
-  Position GetExtendPoint(Line line);
+  Position GetExtendPoint(Line line);  
   
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
@@ -114,6 +114,13 @@ class Board {
   void set_stone(Position point, StoneType stone);
   
  protected:
+  StoneType OppositeStone(StoneType stone) {
+    if (stone == kStoneBlack) {
+      return kStoneWhite;
+    } else {
+      return kStoneBlack;
+    }
+  }
   Line GetContinuousLineWithDirection(Position point, StoneType stone,
                                       Vector direction);  
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
