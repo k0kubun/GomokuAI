@@ -219,7 +219,7 @@ bool Board::IsWinningPoint(Position point, int least_length, StoneType stone) {
 }
 
 int Board::WinningPointNum(int least_length, StoneType stone) {
-  int num;
+  int num = 0;
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (IsWinningPoint(Position(i, j), least_length, stone) == true) {
