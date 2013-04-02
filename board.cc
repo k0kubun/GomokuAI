@@ -230,6 +230,13 @@ Position Board::FindMultipleLine2MakablePoint(int least_length,
   Board virtual_board;
   Position put_position = Position::Null();
   Board::Line line;
+  
+  Position point = virtual_board.
+      FindMultipleLineMakablePoint(least_length, 3, stone);
+  if (point.Exists()) {
+    return Position::Null();
+  }
+  
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (this->stone(i, j) == kStoneBlank) {
