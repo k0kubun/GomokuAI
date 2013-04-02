@@ -71,7 +71,7 @@ Position Brain::GetPutPoint(Board board) {
     }
   }
 
-  put_point = board.FindMultipleLine2MakablePoint(4, own_stone());
+  put_point = board.FindLeadWinningPoint(4, own_stone(), 0);
   if (put_point.Exists()) {
     return put_point;
   }
@@ -90,7 +90,7 @@ Position Brain::GetPutPoint(Board board) {
     return put_point;
   }
 
-  put_point = board.FindMultipleLinePreMakablePoint(4, opponent_stone());
+  put_point = board.FindLeadWinningPoint(4, opponent_stone(), 0);
   if (put_point.Exists()) {
     return put_point;
   }
@@ -100,7 +100,7 @@ Position Brain::GetPutPoint(Board board) {
     return put_point;
   }
 
-  put_point = board.FindMultipleLinePreMakablePoint(3, own_stone());
+  put_point = board.FindLeadWinningPoint(3, own_stone(), 0);
   if (put_point.Exists()) {
     return put_point;
   }

@@ -236,14 +236,14 @@ Position Board::FindLeadWinningPoint(int least_length, StoneType stone,
   Board::Line line;
 
   if (this->WinningPointNum(least_length, stone) > 0) {
-    return Point::Null();
+    return Position::Null();
   }
   
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (this->stone(i, j) == kStoneBlank) {
         virtual_board = *this;
-        this.set_stone(i, j, stone);
+        this->set_stone(i, j, stone);
 
         if (virtual_board.WinningPointNum(least_length, stone) >= 2) {
           return Position(i, j);
@@ -260,6 +260,7 @@ Position Board::FindLeadWinningPoint(int least_length, StoneType stone,
       }
     }
   }
+  return Position::Null();
 }
 
 Position Board::FindMultipleLineMakablePoint(int first_length,
