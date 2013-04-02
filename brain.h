@@ -8,6 +8,7 @@ class Brain {
   Brain(StoneType own_stone);
   
   void PutStone(Board board);
+  void PrintBoard(Board board);
   Position GetPutPosition(Board board);
 
   StoneType own_stone();

@@ -8,6 +8,23 @@ void Brain::PutStone(Board board) {
   board.set_stone(GetPutPosition(board), this->own_stone());
 }
 
+void Brain::PrintBoard(Board board) {
+  char c;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (board.stone(i, j) == kStoneBlack) {
+        c = 'x';
+      } else if (board.stone(i, j) == kStoneWhite) {
+        c = 'o';
+      } else {
+        c = '.';
+      }
+      printf("%c", c);
+    }
+    printf("\n");
+  }
+}
+
 Position Brain::GetPutPosition(Board board) {
   Board::Line line;
   Position put_point;

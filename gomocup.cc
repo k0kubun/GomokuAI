@@ -5,11 +5,7 @@ using namespace std;
 void Gomocup::Start() {
   while (true) {
     string line;
-    //FILE *file;
     getline(cin, line);
-    //file = fopen("out.txt", "a");
-    //fprintf(file, "%s", line.c_str());
-    //fclose(file);
     
     if (line.compare(0, 5, "START") == 0) {
       board_ = Board();
@@ -22,12 +18,11 @@ void Gomocup::Start() {
       PrintAIPutPosition(kStoneBlack);
     } else if (line.compare(0, 5, "BEGIN") == 0) {
       PrintAIPutPosition(kStoneBlack);
+    } else if (line.compare(0, 5, "DEBUG") == 0) {
+      Brain(kStoneBlack).PrintBoard(board_);
     } else if (line.compare(0, 5, "BOARD") == 0) {
       while (true) {
         getline(cin, line);
-        //file = fopen("out.txt", "a");
-        //fprintf(file, "%s", line.c_str());
-        //fclose(file);
         if (line.compare(0, 4, "DONE") == 0) {
           break;
         } else {
@@ -67,9 +62,10 @@ void Gomocup::ParseBoardString(string board_string) {
   StoneType stone_type;
   int first_comma_position = board_string.find(",");
   int second_comma_position =
-      board_string.substr(first_comma_position + 1, board_string.length())
+      board_string.substr(first_comma_position + 1, board_string.length() - first_comma_position - 1)
       .find(",");
-  int x = atoi(board_string.substr(0, first_comma_position - 1).c_str());
+  second_comma_position += first_comma_position + 1;
+  int x = atoi(board_string.substr(0, first_comma_position).c_str());
   int y = atoi(board_string.substr(first_comma_position + 1, 
                                    second_comma_position - 1).c_str());
   int stone = atoi(board_string.substr(second_comma_position + 1,
