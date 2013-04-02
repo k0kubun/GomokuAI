@@ -3,17 +3,17 @@
 
 
 // This is the rule for gomocup
-const int  kBoardSize = 20;
+const int  kBoardSize = 15;
 const bool kAllowed3x3[2] = {
-  true,  // Black
+  false, // Black
   true   // White
 };
 const bool kAllowed4x4[2] = {
-  true,  // Black
+  false, // Black
   true   // White
 };
 const bool kAllowedLong[2] = {
-  true,  // Black
+  false, // Black
   true   // White
 };
 
