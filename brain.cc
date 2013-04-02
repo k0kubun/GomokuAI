@@ -55,15 +55,6 @@ Position Brain::GetPutPoint(Board board) {
     return put_point;
   }
 
-  put_point = FindMultipleLineMakablePoint(board, 4, 4, opponent_stone());
-  if (put_point.Exists()) {
-    return put_point;
-  }
-  put_point = FindMultipleLineMakablePoint(board, 4, 3, opponent_stone());
-  if (put_point.Exists()) {
-    return put_point;
-  }
-
   line = board.FindAliveDiscontinuousLine(3, own_stone());
   if (line.Exists()) {
     put_point = GetExtendPoint(board, line);
@@ -79,6 +70,15 @@ Position Brain::GetPutPoint(Board board) {
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
     }
+  }
+
+  put_point = FindMultipleLineMakablePoint(board, 4, 4, opponent_stone());
+  if (put_point.Exists()) {
+    return put_point;
+  }
+  put_point = FindMultipleLineMakablePoint(board, 4, 3, opponent_stone());
+  if (put_point.Exists()) {
+    return put_point;
   }
 
   put_point = FindMultipleLineMakablePoint(board, 3, 3, own_stone());
