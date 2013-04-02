@@ -10,8 +10,6 @@ class Brain {
   void PutStone(Board board);
   void PrintBoard(Board board);
   Position GetPutPoint(Board board);
-  Position FindMultipleLineMakablePoint(Board board, int first_length,
-                                        int second_length, StoneType stone);
 
   StoneType own_stone();
   void set_own_stone(StoneType own_stone);
@@ -19,7 +17,6 @@ class Brain {
   
  private:
   Position GetEmptyPoint(Board board);
-  Position GetExtendPoint(Board board, Board::Line line);
   StoneType OppositeStone(StoneType stone);
 
   StoneType own_stone_;

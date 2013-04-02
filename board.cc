@@ -214,7 +214,7 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
               virtual_board.GetAliveDiscontinuousLineLengthList(i, j, stone);
           std::list<int>::iterator list_iter = length_list.begin();
           list_iter++;
-          if (second_length == *list_iter) {
+          if (second_length <= *list_iter) {
             max_length = *list_iter;
             put_position = Position(i, j);
           }
@@ -223,6 +223,45 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
     }
   }
   return put_position;
+}
+
+Position Board::FindMultipleLineMakablePointMakablePoint(int least_length,
+                                                         StoneType stone) {
+  Board virtual_board;
+  Position put_position = Position::Null();
+  Board::Line line;
+  for (int i = 0; i < kBoardSize; i++) {
+    for (int j = 0; j < kBoardSize; j++) {
+      if (this->stone(i, j) == kStoneBlank) {
+        virtual_board = *this;
+        virtual_board.set_stone(i, j, stone);
+        line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
+        if (line.DiscontinuousLength() >= least_length) {
+          Position winning_point =
+              virtual_board.FindMultipleLineMakablePoint(least_length, 3, stone);
+          if (winning_point.Exists()) {
+            return Position(i, j);
+          }
+        }
+      }
+    }
+  }
+  return Position::Null();
+}
+
+Position Board::GetExtendPoint(Board::Line line) {
+  if (line.IsContinuous()) {
+    if (this->AllowsToPut(line.DirectionalBlank())) {
+      return line.DirectionalBlank();
+    } else if (this->AllowsToPut(line.UndirectionalBlank())) {
+      return line.UndirectionalBlank();
+    } else {
+      return Position::Null();
+    }
+  } else {
+    return line.SplitPoint();
+  }
+  return Position::Null();
 }
 
 StoneType Board::stone(int x, int y) {
