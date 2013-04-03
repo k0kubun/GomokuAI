@@ -88,6 +88,7 @@ int Board::NumOf(StoneType stone) {
 int Board::MaxLineLength() {
   Line line;
   int max_length = 0, current_length;
+
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       line = GetMaxLengthAliveDiscontinuousLine(i, j, kStoneBlack);
