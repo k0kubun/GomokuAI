@@ -4,10 +4,6 @@ Brain::Brain(StoneType own_stone) {
   this->set_own_stone(own_stone);
 }
 
-void Brain::PutStone(Board board) {
-  board.set_stone(GetPutPoint(board), this->own_stone());
-}
-
 void Brain::PrintBoard(Board board) {
   char c;
   for (int i = 0; i < kBoardSize; i++) {

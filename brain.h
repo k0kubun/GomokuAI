@@ -7,7 +7,6 @@ class Brain {
  public:
   Brain(StoneType own_stone);
   
-  void PutStone(Board board);
   void PrintBoard(Board board);
   Position GetPutPoint(Board board);
 
