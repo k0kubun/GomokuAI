@@ -80,7 +80,26 @@ TEST (Board, IsBannedPoint) {
     board.set_stone(0, 2, kStoneBlack);
     board.set_stone(1, 0, kStoneBlack);
     board.set_stone(2, 0, kStoneBlack);
-    EXPECT_EQ(true, board.IsBannedPoint(0, 0, kStoneBlack));
+    EXPECT_EQ(false, board.IsBannedPoint(0, 0, kStoneBlack));
+  }
+
+  board = Board();
+  if (kAllowed3x3[kStoneBlack] == false) {
+    board.set_stone(1, 2, kStoneBlack);
+    board.set_stone(1, 3, kStoneBlack);
+    board.set_stone(2, 1, kStoneBlack);
+    board.set_stone(3, 1, kStoneBlack);
+    EXPECT_EQ(true, board.IsBannedPoint(1, 1, kStoneBlack));
+  }
+
+  board = Board();
+  if (kAllowed3x3[kStoneBlack] == false) {
+    board.set_stone(1, 2, kStoneBlack);
+    board.set_stone(1, 3, kStoneBlack);
+    board.set_stone(2, 1, kStoneBlack);
+    board.set_stone(3, 1, kStoneBlack);
+    board.set_stone(4, 1, kStoneWhite);
+    EXPECT_EQ(false, board.IsBannedPoint(1, 1, kStoneBlack));
   }
 
   board = Board();

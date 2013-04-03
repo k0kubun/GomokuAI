@@ -46,7 +46,9 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   for (int i = 0; i < kDirectionVectorNum; i++) {
     line = virtual_board.GetDiscontinuousLineWithDirection(
         x, y, stone, kDirectionVector[i]);
-    num_of_length[line.DiscontinuousLength()]++;
+    if (line.IsAliveIn(*this)) {
+      num_of_length[line.DiscontinuousLength()]++;
+    }
   }
 
   if (kAllowedLong[stone] == false) {
@@ -330,21 +332,29 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
                                                      StoneType stone,
                                                      Vector direction) {
   Line main_line, split_line_a, split_line_b;
-  Position directional_blank, undirectional_blank;
+  Position directional_blank, undirectional_blank, split_point_a, split_point_b;
 
   if (this->stone(x, y) == stone) {
     main_line = GetContinuousLineWithDirection(x, y, stone, direction);
   
     directional_blank = main_line.DirectionalBlank(direction);
-    if (this->stone(directional_blank) == kStoneBlank) {
-      split_line_a = GetContinuousLineWithDirection(
-          directional_blank.MoveForDirection(direction), stone, direction);
+    if (directional_blank.IsInTheBoard() &&
+        this->stone(directional_blank) == kStoneBlank) {
+      split_point_a = directional_blank.MoveForDirection(direction);
+      if (split_point_a.IsInTheBoard()) {
+        split_line_a =
+            GetContinuousLineWithDirection(split_point_a, stone, direction);
+      }
     }
 
     undirectional_blank = main_line.UndirectionalBlank(direction);
-    if (this->stone(undirectional_blank) == kStoneBlank) {
-      split_line_b = GetContinuousLineWithDirection(
-          undirectional_blank.MoveAgainstDirection(direction), stone, direction);
+    if (undirectional_blank.IsInTheBoard() &&
+        this->stone(undirectional_blank) == kStoneBlank) {
+      split_point_b = directional_blank.MoveAgainstDirection(direction);
+      if (split_point_b.IsInTheBoard()) {
+        split_line_b =
+            GetContinuousLineWithDirection(split_point_b, stone, direction);
+      }
     }
 
     if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {

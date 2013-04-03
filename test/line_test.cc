@@ -142,12 +142,35 @@ TEST (Line, IsAliveIn) {
   EXPECT_EQ(true, line.IsAliveIn(board));
 
   board = Board();
+  board.set_stone(4, 9, kStoneBlack);
+  board.set_stone(6, 11, kStoneBlack);
   board.set_stone(7, 12, kStoneBlack);
-  board.set_stone(9, 14, kStoneBlack);
-  board.set_stone(10, 15, kStoneBlack);
   line = Board::Line(kStoneBlack);
+  line.Append(4, 9);
+  line.Append(6, 11);
   line.Append(7, 12);
-  line.Append(9, 14);
-  line.Append(10, 15);
   EXPECT_EQ(true, line.IsAliveIn(board));
+
+  board = Board();
+  board.set_stone(0, 0, kStoneBlack);
+  board.set_stone(0, 1, kStoneBlack);
+  board.set_stone(0, 2, kStoneBlack);
+  line = Board::Line(kStoneBlack);
+  line.Append(0, 0);
+  line.Append(0, 1);
+  line.Append(0, 2);
+  EXPECT_EQ(false, line.IsAliveIn(board));
+
+  board = Board();
+  board.set_stone(1, 1, kStoneBlack);
+  board.set_stone(2, 1, kStoneBlack);
+  board.set_stone(3, 1, kStoneBlack);
+  board.set_stone(4, 1, kStoneWhite);
+  line = Board::Line(kStoneBlack);
+  line.Append(1, 1);
+  line.Append(2, 1);
+  line.Append(3, 1);
+  EXPECT_EQ(false, line.IsAliveIn(board));
+
+
 }
