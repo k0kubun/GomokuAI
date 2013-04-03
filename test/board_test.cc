@@ -102,13 +102,13 @@ TEST (Board, IsInTheBoard) {
   EXPECT_EQ(false, Board::IsInTheBoard(kBoardSize, kBoardSize));
 }
 
-// TEST (Board, GetDiscontinuousLineWithDirection) {
-//   BoardTest::TestGetDiscontinuousLineWithDirection();
-// }
+TEST (Board, GetDiscontinuousLineWithDirection) {
+  BoardTest::TestGetDiscontinuousLineWithDirection();
+}
 
-// TEST (Board, GetMaxLengthAliveDiscontinuousLine) {
-//   BoardTest::TestGetMaxLengthAliveDiscontinuousLine();
-// }
+TEST (Board, GetMaxLengthAliveDiscontinuousLine) {
+  BoardTest::TestGetMaxLengthAliveDiscontinuousLine();
+}
 
 TEST (Board, MaxLineLength) {
   Board board;
