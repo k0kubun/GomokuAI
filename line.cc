@@ -118,14 +118,18 @@ bool Board::Line::IsContinuous() {
 }
 
 int Board::Line::BlankNumIn(Board board) {
-  int blank_num = 0;
-  if (board.stone(this->DirectionalBlank()) == kStoneBlank) {
-    blank_num++;
+  if (this->IsLine()) {
+    int blank_num = 0;
+    if (board.stone(this->DirectionalBlank()) == kStoneBlank) {
+      blank_num++;
+    }
+    if (board.stone(this->UndirectionalBlank()) == kStoneBlank) {
+      blank_num++;
+    }
+    return blank_num;
+  } else {
+    return 0;
   }
-  if (board.stone(this->UndirectionalBlank()) == kStoneBlank) {
-    blank_num++;
-  }
-  return blank_num;
 }
 
 bool Board::Line::IsAliveIn(Board board) {
