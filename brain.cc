@@ -33,7 +33,7 @@ Position Brain::GetPutPoint(Board board) {
     for (int i = kBoardSize; i >= 5; i--) {
       line = board.FindAliveDiscontinuousLine(i, opponent_stone());
       if (line.Exists()) {
-        put_point = board.GetExtendPoint(line);
+        put_point = board.GetExtendPoint(line, own_stone());
         if (put_point.Exists() &&
             board.IsBannedPoint(put_point, own_stone()) == false) {
           return put_point;
@@ -44,7 +44,7 @@ Position Brain::GetPutPoint(Board board) {
 
   line = board.FindAliveDiscontinuousLine(4, own_stone());
   if (line.Exists()) {
-    put_point = board.GetExtendPoint(line);
+    put_point = board.GetExtendPoint(line, own_stone());
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
@@ -52,7 +52,7 @@ Position Brain::GetPutPoint(Board board) {
   }
   line = board.FindAliveDiscontinuousLine(4, opponent_stone());
   if (line.Exists()) {
-    put_point = board.GetExtendPoint(line);
+    put_point = board.GetExtendPoint(line, own_stone());
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
@@ -66,7 +66,7 @@ Position Brain::GetPutPoint(Board board) {
 
   line = board.FindAliveDiscontinuousLine(3, own_stone());
   if (line.Exists()) {
-    put_point = board.GetExtendPoint(line);
+    put_point = board.GetExtendPoint(line, own_stone());
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
@@ -80,7 +80,7 @@ Position Brain::GetPutPoint(Board board) {
 
   line = board.FindAliveDiscontinuousLine(3, opponent_stone());
   if (line.Exists()) {
-    put_point = board.GetExtendPoint(line);
+    put_point = board.GetExtendPoint(line, own_stone());
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
@@ -97,24 +97,28 @@ Position Brain::GetPutPoint(Board board) {
     return put_point;
   }
 
-  put_point = board.FindMultipleLineMakablePoint(3, 3, own_stone());
-  if (put_point.Exists()) {
-    return put_point;
+  if (kAllowed3x3[own_stone()] == true) {
+    put_point = board.FindMultipleLineMakablePoint(3, 3, own_stone());
+    if (put_point.Exists()) {
+      return put_point;
+    }
   }
 
   put_point = board.FindMultipleLinePreMakablePoint(3, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }
-  
-  put_point = board.FindMultipleLineMakablePoint(3, 3, opponent_stone());
-  if (put_point.Exists()) {
-    return put_point;
+
+  if (kAllowed3x3[opponent_stone()] == true) {
+    put_point = board.FindMultipleLineMakablePoint(3, 3, opponent_stone());
+    if (put_point.Exists()) {
+      return put_point;
+    }
   }
 
   line = board.FindAliveDiscontinuousLine(2, own_stone());
   if (line.Exists()) {
-    put_point = board.GetExtendPoint(line);
+    put_point = board.GetExtendPoint(line, own_stone());
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;

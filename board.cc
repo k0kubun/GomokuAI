@@ -28,8 +28,10 @@ bool Board::IsBannedPoint(Position point, StoneType stone) {
   return this->IsBannedPoint(point.x, point.y, stone);
 }
 
-bool Board::AllowsToPut(Position point) {
-  return this->stone(point) == kStoneBlank && point.IsInTheBoard();
+bool Board::AllowsToPut(Position point, StoneType stone) {
+  return this->stone(point) == kStoneBlank &&
+      point.IsInTheBoard() &&
+      this->IsBannedPoint(point, stone) == false;
 }
 
 BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
@@ -226,7 +228,7 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
 }
 
 Position Board::FindMultipleLinePreMakablePoint(int least_length,
-                                              StoneType stone) {
+                                                StoneType stone) {
   Board virtual_board;
   Position put_position = Position::Null();
   Board::Line line;
@@ -244,8 +246,9 @@ Position Board::FindMultipleLinePreMakablePoint(int least_length,
         virtual_board.set_stone(i, j, stone);
         line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
         if (line.DiscontinuousLength() >= least_length) {
-          virtual_board.set_stone(virtual_board.GetExtendPoint(line),
-                                  OppositeStone(stone));
+          virtual_board.set_stone(
+              virtual_board.GetExtendPoint(line, OppositeStone(stone)),
+              OppositeStone(stone));
           Position winning_point = virtual_board.
               FindMultipleLineMakablePoint(least_length, 3, stone);
           if (winning_point.Exists()) {
@@ -258,11 +261,13 @@ Position Board::FindMultipleLinePreMakablePoint(int least_length,
   return Position::Null();
 }
 
-Position Board::GetExtendPoint(Board::Line line) {
-  if (line.IsContinuous()) {
-    if (this->AllowsToPut(line.DirectionalBlank())) {
+Position Board::GetExtendPoint(Board::Line line, StoneType put_stone) {
+  if (line.IsContinuous() ||
+      (line.IsContinuous() == false &&
+       this->AllowsToPut(line.SplitPoint(), put_stone) == false)) {
+    if (this->AllowsToPut(line.DirectionalBlank(), put_stone)) {
       return line.DirectionalBlank();
-    } else if (this->AllowsToPut(line.UndirectionalBlank())) {
+    } else if (this->AllowsToPut(line.UndirectionalBlank(), put_stone)) {
       return line.UndirectionalBlank();
     } else {
       return Position::Null();

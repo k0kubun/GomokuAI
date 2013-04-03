@@ -84,7 +84,7 @@ class Board {
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
   bool IsBannedPoint(Position point, StoneType stone);
-  bool AllowsToPut(Position point);
+  bool AllowsToPut(Position point, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   int  NumOf(StoneType stone);
@@ -99,7 +99,7 @@ class Board {
   Position FindMultipleLineMakablePoint(int first_length, int second_length,
                                         StoneType stone);
   Position FindMultipleLinePreMakablePoint(int least_length, StoneType stone);
-  Position GetExtendPoint(Line line);  
+  Position GetExtendPoint(Line line, StoneType put_stone);
   
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
