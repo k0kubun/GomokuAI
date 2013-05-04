@@ -1,12 +1,7 @@
-Valkyrie
+GomokuAI
 =======
 Artificial Intelligence capable of playing Gomoku  
 Created by Takashi Kokubun at [tekunodo](http://tekunodo.jp/).  
-
-Coding Style
--------
-This software is coded in
-[Google C++ Style](http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml)
 
 Testing
 -------
@@ -18,5 +13,5 @@ make
 
 License
 -------
-Valkyrie is free and open source software distributed under the
+GomokuAI is free and open source software distributed under the
 [BSD License](http://opensource.org/licenses/bsd-license.php).
