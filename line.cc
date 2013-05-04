@@ -2,7 +2,7 @@
 #include "board.h"
 
 Board::Line::Line(StoneType stone) {
-  stone_ = stone;  
+  stone_ = stone;
 }
 
 PositionIter Board::Line::PointBegin() {
@@ -21,7 +21,7 @@ Position Board::Line::PointBack() {
   return point_list_.back();
 }
 
-void Board::Line::Append(Position point) {  
+void Board::Line::Append(Position point) {
   point_list_.push_back(point);
 }
 
@@ -45,7 +45,7 @@ bool Board::Line::HasPoint(Position point) {
 
 bool Board::Line::HasPoint(int x, int y) {
   PositionIter current_point;
-  current_point = this->PointBegin();      
+  current_point = this->PointBegin();
   while (current_point != this->PointEnd()) {
     if (current_point->x == x && current_point->y == y) {
       return true;
@@ -146,7 +146,7 @@ bool Board::Line::IsAliveIn(Board board) {
       if (this->BlankNumIn(board) > 0) {
         return true;
       }
-    }      
+    }
   } else if (this->DiscontinuousLength() <= 3) {
     if (this->BlankNumIn(board) == 2) {
       return true;
@@ -247,7 +247,7 @@ Position Board::Line::SplitPoint() {
 StoneType Board::Line::stone() {
   return stone_;
 }
- 
+
 void Board::Line::set_stone(StoneType stone) {
   stone_ = stone;
 }

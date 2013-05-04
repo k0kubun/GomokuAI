@@ -41,8 +41,8 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   for (int i = 0; i < kBoardSize + 1; i++) {
     num_of_length[i] = 0;
   }
-  
-  virtual_board.set_stone(x, y, stone);  
+
+  virtual_board.set_stone(x, y, stone);
   for (int i = 0; i < kDirectionVectorNum; i++) {
     line = virtual_board.GetDiscontinuousLineWithDirection(
         x, y, stone, kDirectionVector[i]);
@@ -118,7 +118,7 @@ Board::Line Board::FindAliveDiscontinuousLine(int length, StoneType stone) {
         return line;
       }
     }
-  }  
+  }
   return Line::Null();
 }
 
@@ -172,11 +172,11 @@ Board::Line Board::GetMaxLengthAliveDiscontinuousLine(int x, int y,
   for (int i = 0; i < kDirectionVectorNum; i++) {
     current_line =
         GetDiscontinuousLineWithDirection(x, y, stone, kDirectionVector[i]);
-    
+
     if (current_line.IsAliveIn(*this) &&
         current_line.DiscontinuousLength() >
         longest_line.DiscontinuousLength()) {
-      longest_line = current_line;      
+      longest_line = current_line;
     }
   }
   return longest_line;
@@ -206,7 +206,7 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
   Board::Line line;
   Position put_position = Position::Null();
   int max_length = -1;
-  
+
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (this->stone(i, j) == kStoneBlank) {
@@ -233,15 +233,14 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
 Position Board::FindMultipleLinePreMakablePoint(int least_length,
                                                 StoneType stone) {
   Board virtual_board;
-  Position put_position = Position::Null();
   Board::Line line;
-  
+
   Position point = virtual_board.
       FindMultipleLineMakablePoint(least_length, 3, stone);
   if (point.Exists()) {
     return Position::Null();
   }
-  
+
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
       if (this->stone(i, j) == kStoneBlank) {
@@ -336,7 +335,7 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
 
   if (this->stone(x, y) == stone) {
     main_line = GetContinuousLineWithDirection(x, y, stone, direction);
-  
+
     directional_blank = main_line.DirectionalBlank(direction);
     if (directional_blank.IsInTheBoard() &&
         this->stone(directional_blank) == kStoneBlank) {

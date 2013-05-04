@@ -44,7 +44,7 @@ Position Brain::GetPutPoint(Board board) {
     if (put_point.Exists() &&
         board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
-    }    
+    }
   }
   line = board.FindAliveDiscontinuousLine(4, opponent_stone());
   if (line.Exists()) {
@@ -120,12 +120,12 @@ Position Brain::GetPutPoint(Board board) {
       return put_point;
     }
   }
-  
+
   put_point = board.FindMultipleLineMakablePoint(2, 2, own_stone());
   if (put_point.Exists()) {
     return put_point;
   }
-  
+
   return GetEmptyPoint(board);
 }
 
@@ -148,7 +148,7 @@ Position Brain::GetEmptyPoint(Board board) {
     center--;
   }
   center /= 2;
-      
+
   for (int limit = 0; limit < center; limit++) {
     for (int i = center - limit; i <= center + limit; i++) {
       for (int j = center - limit; j <= center + limit; j++) {

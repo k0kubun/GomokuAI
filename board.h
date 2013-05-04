@@ -37,7 +37,7 @@ class Board {
    public:
     Line() {};
     Line(StoneType stone);
-  
+
     PositionIter PointBegin();
     PositionIter PointEnd();
     Position PointFront();
@@ -70,14 +70,14 @@ class Board {
     StoneType stone();
     void set_stone(StoneType stone);
     static Line LineMake(Position point_a, Position point_b);
- 
+
    private:
     bool AreContinuousPoints(PositionIter point_a, PositionIter point_b);
-    
+
     std::list<Position> point_list_;
     StoneType stone_;
   };
-  
+
   Board();
 
   bool HasWinner();
@@ -100,19 +100,19 @@ class Board {
                                         StoneType stone);
   Position FindMultipleLinePreMakablePoint(int least_length, StoneType stone);
   Position GetExtendPoint(Line line, StoneType put_stone);
-  
+
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
   }
   static bool IsInTheBoard(Position point) {
     return IsInTheBoard(point.x, point.y);
   }
-  
+
   StoneType stone(int x, int y);
   StoneType stone(Position point);
   void set_stone(int x, int y, StoneType stone);
   void set_stone(Position point, StoneType stone);
-  
+
  protected:
   StoneType OppositeStone(StoneType stone) {
     if (stone == kStoneBlack) {
@@ -122,13 +122,13 @@ class Board {
     }
   }
   Line GetContinuousLineWithDirection(Position point, StoneType stone,
-                                      Vector direction);  
+                                      Vector direction);
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,
                                       Vector direction);
   Line GetDiscontinuousLineWithDirection(int x, int y, StoneType stone,
                                          Vector direction);
   Line GetMaxLengthContinuousLine(int x, int y, StoneType stone);
-  
+
   StoneType stone_[kBoardSize][kBoardSize];
 };
 

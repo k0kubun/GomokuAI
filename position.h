@@ -30,7 +30,7 @@ class Position {
     return MoveForDirection(ReverseVector(direction));
   }
   bool IsInTheBoard() {
-    return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);        
+    return (x >= 0 && x < kBoardSize) && (y >= 0 && y < kBoardSize);
   }
   static Position Null() {
     return Position(false);
@@ -38,7 +38,7 @@ class Position {
   bool Exists() {
     return valid_;
   }
-  
+
   int x;
   int y;
 
