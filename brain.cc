@@ -6,11 +6,13 @@ Brain::Brain(StoneType own_stone) {
 
 void Brain::PrintBoard(Board board) {
   char c;
+  puts("EDCBA9876543210");
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      if (board.stone(i, j) == kStoneBlack) {
+      StoneType stone = board.stone(kBoardSize - j - 1, i);
+      if (stone == kStoneBlack) {
         c = 'x';
-      } else if (board.stone(i, j) == kStoneWhite) {
+      } else if (stone == kStoneWhite) {
         c = 'o';
       } else {
         c = '.';
