@@ -37,9 +37,11 @@ bool Board::AllowsToPut(Position point, StoneType stone) {
 BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   Board::Line line;
-  int num_of_length[kBoardSize + 1];
+  int num_of_discontinuous_length[kBoardSize + 1];
+  int num_of_continuous_length[kBoardSize + 1];
   for (int i = 0; i < kBoardSize + 1; i++) {
-    num_of_length[i] = 0;
+    num_of_discontinuous_length[i] = 0;
+    num_of_continuous_length[i] = 0;
   }
 
   virtual_board.set_stone(x, y, stone);
@@ -47,24 +49,30 @@ BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
     line = virtual_board.GetDiscontinuousLineWithDirection(
         x, y, stone, kDirectionVector[i]);
     if (line.IsAliveIn(*this)) {
-      num_of_length[line.DiscontinuousLength()]++;
+      num_of_discontinuous_length[line.DiscontinuousLength()]++;
+    }
+
+    line = virtual_board.GetContinuousLineWithDirection(
+        x, y, stone, kDirectionVector[i]);
+    if (line.IsAliveIn(*this)) {
+      num_of_continuous_length[line.ContinuousLength()]++;
     }
   }
 
   if (kAllowedLong[stone] == false) {
     for (int i = 6; i < kBoardSize + 1; i++) {
-      if (num_of_length[i] != 0) {
+      if (num_of_continuous_length[i] != 0) {
         return kBanLong;
       }
     }
   }
   if (kAllowed3x3[stone] == false) {
-    if (num_of_length[3] >= 2) {
+    if (num_of_discontinuous_length[3] >= 2) {
       return kBan3x3;
     }
   }
   if (kAllowed4x4[stone] == false) {
-    if (num_of_length[4] >= 2) {
+    if (num_of_discontinuous_length[4] >= 2) {
       return kBan4x4;
     }
   }
