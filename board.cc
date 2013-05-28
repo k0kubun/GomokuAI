@@ -288,6 +288,20 @@ Position Board::GetExtendPoint(Board::Line line, StoneType put_stone) {
   return Position::Null();
 }
 
+StoneType Board::StoneToPut() {
+  if (NumOf(kStoneBlack) == NumOf(kStoneWhite)) {
+    return kStoneBlack;
+  } else {
+    return kStoneWhite;
+  }
+}
+
+Board Board::CopyWithPoint(int x, int y) {
+  Board copy_board = *this;
+  copy_board.set_stone(x, y, copy_board.StoneToPut());
+  return copy_board;
+}
+
 StoneType Board::stone(int x, int y) {
   return stone_[x][y];
 }

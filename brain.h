@@ -22,19 +22,19 @@ class Brain {
 
   //For Bench
   Position  GetSearchPoint(Board board, int count, bool alpha_beta);
+  int       Heuristic(Board board);
 
   void      set_own_stone(StoneType own_stone);
   StoneType own_stone();
   StoneType opponent_stone();
 
  private:
-  bool      IsMyTurn(int count);
-  StoneType TurnStone(int count);
+  bool      IsPointToPut(Board board, int x, int y);
   int       HeuristicCenterHigh(Board board);
-  int       Heuristic(Board board, StoneType own_stone);
+  //int       Heuristic(Board board, StoneType own_stone);
   //Position  GetSearchPoint(Board board, int count, bool alpha_beta);
-  int       MiniMax(Board board, int count);
-  int       AlphaBeta(Board board, int count, int cut);
+  int       MiniMax(Board board, int depth);
+  int       AlphaBeta(Board board, int depth, int cut);
   Position  GetEmptyPoint(Board board);
   StoneType OppositeStone(StoneType stone);
 

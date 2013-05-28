@@ -152,16 +152,21 @@ StoneType Brain::opponent_stone() {
   return OppositeStone(own_stone_);
 }
 
-bool Brain::IsMyTurn(int count) {
-  return count % 2 == 0;
-}
-
-StoneType Brain::TurnStone(int count) {
-  if (IsMyTurn(count) == true) {
-    return own_stone();
-  } else {
-    return opponent_stone();
+bool Brain::IsPointToPut(Board board, int x, int y) {
+  int search_length = 1;
+  if (board.stone(x, y) != kStoneBlank
+      || board.IsBannedPoint(x, y, board.StoneToPut()) == true) {
+    return false;
   }
+  for (int i = x - search_length; i < x + search_length; i++) {
+    for (int j = y - search_length; j < y + search_length; j++) {
+      if (Board::IsInTheBoard(i, j)
+          && board.stone(i, j) != kStoneBlank) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 int Brain::HeuristicCenterHigh(Board board) {
@@ -178,7 +183,8 @@ int Brain::HeuristicCenterHigh(Board board) {
   return num;
 }
 
-int Brain::Heuristic(Board board, StoneType own_stone) {
+int Brain::Heuristic(Board board) {
+  StoneType own_stone = board.StoneToPut();
   StoneType opponent_stone = OppositeStone(own_stone);
   Board::Line line;
   int heuristic = kHeuristicMin, length;
@@ -190,8 +196,8 @@ int Brain::Heuristic(Board board, StoneType own_stone) {
 
   heuristic += HeuristicCenterHigh(board);
 
-  for (int i = 0; i < kBoardSize; i++) {
-    for (int j = 0; j < kBoardSize; j++) {
+    for (int i = 0; i < kBoardSize; i++) {
+      for (int j = 0; j < kBoardSize; j++) {
       std::list<int> length_list =
           board.GetAliveDiscontinuousLineLengthList(i, j, own_stone);
       std::list<int>::iterator list_iter = length_list.begin();
@@ -209,7 +215,7 @@ int Brain::Heuristic(Board board, StoneType own_stone) {
   for (int i = 0; i < 6; i++) {
     heuristic += num_of_length[i] * pow(10, i);
   }
-  
+
   for (int i = 0; i < 6; i++) {
     num_of_length[i] = 0;
   }
@@ -244,7 +250,7 @@ Position Brain::GetSearchPoint(Board board, int count, bool alpha_beta) {
 
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      if (board.stone(i, j) != kStoneBlank || board.IsBannedPoint(i, j, own_stone())) {
+      if (IsPointToPut(board, i, j) == false) {
         continue;
       }
 
@@ -264,85 +270,51 @@ Position Brain::GetSearchPoint(Board board, int count, bool alpha_beta) {
   return put_point;
 }
 
-// If count is even, return Brain's max heuristic
-// If count is odd,  return enemy's min heuristic
-int Brain::MiniMax(Board board, int count) {
-  Board virtual_board;
-  int best_min_max, current_min_max;
+int Brain::MiniMax(Board board, int depth) {
+  int max, min, score;
+  
+  if (depth == 0 || board.StoneNum() == kBoardSize * kBoardSize) {
+    return Heuristic(board);
+  }
 
-  if (count == 0) {
-    return Heuristic(board, own_stone());
-  } else {
-    if (IsMyTurn(count) == true) {
-      best_min_max = 0;
-    } else {
-      best_min_max = 100;
-    }
-
+  if (board.StoneToPut() == own_stone()) {
+    max = INT_MIN;
     for (int i = 0; i < kBoardSize; i++) {
       for (int j = 0; j < kBoardSize; j++) {
-        if (board.stone(i, j) != kStoneBlank || board.IsBannedPoint(i, j, TurnStone(count))) {
+        if (IsPointToPut(board, i, j) == false) {
           continue;
         }
-
-        virtual_board = board;
-        virtual_board.set_stone(i, j, TurnStone(count));
-        current_min_max = MiniMax(virtual_board, count - 1);
-
-        if (IsMyTurn(count) == true) {
-          if (current_min_max > best_min_max) {
-            best_min_max = current_min_max;
-          }
-        } else {
-          if (current_min_max < best_min_max) {
-            best_min_max = current_min_max;
-          }
+        
+        score = MiniMax(board.CopyWithPoint(i, j), depth - 1);
+        if (score > max) {
+          max = score;
         }
       }
     }
+    return max;
+  } else {
+    min = INT_MAX;
+    for (int i = 0; i < kBoardSize; i++) {
+      for (int j = 0; j < kBoardSize; j++) {
+        if (IsPointToPut(board, i, j) == false) {
+          continue;
+        }
+        
+        score = MiniMax(board.CopyWithPoint(i, j), depth - 1);
+        if (score < min) {
+          min = score;
+        }
+      }
+    }
+    return min;
   }
-  return best_min_max;
 }
 
-// If count is even, return Brain's max heuristic
-// If count is odd,  return enemy's min heuristic
-// And do Alpha Beta cut
-int Brain::AlphaBeta(Board board, int count, int cut) {
-  Board virtual_board;
-  int best_mini_max, current_mini_max;
-
-  if (count == 0) {
-    return Heuristic(board, own_stone());
-  } else {
-    if (IsMyTurn(count) == true) {
-      best_mini_max = kHeuristicMin;
-    } else {
-      best_mini_max = kHeuristicMax;
-    }
-
-    for (int i = 0; i < kBoardSize; i++) {
-      for (int j = 0; j < kBoardSize; j++) {
-        if (board.stone(i, j) != kStoneBlank || board.IsBannedPoint(i, j, TurnStone(count))) {
-          continue;
-        }
-
-        virtual_board = board;
-        virtual_board.set_stone(i, j, TurnStone(count));
-        current_mini_max = MiniMax(virtual_board, count - 1);
-
-        if (IsMyTurn(count) == true) {
-          if (current_mini_max > best_mini_max) {
-            best_mini_max = current_mini_max;
-          }
-        } else {
-          if (current_mini_max < best_mini_max) {
-            best_mini_max = current_mini_max;
-          }
-        }
-      }
-    }
+int Brain::AlphaBeta(Board board, int depth, int cut) {
+  if (depth == 0 || board.StoneNum() == kBoardSize * kBoardSize) {
+    return Heuristic(board);
   }
-  return best_mini_max;
+  return 0;
 }
 
 Position Brain::GetEmptyPoint(Board board) {

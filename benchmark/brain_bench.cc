@@ -9,9 +9,9 @@ void start_time() {
   start = clock();
 }
 
-void end_time(char *str) {
+void end_time(const char *str) {
   end = clock();
-  printf("%s: %.4f sec\n", str, (double)(end-start)/CLOCKS_PER_SEC);
+  printf("%s: %.8f sec\n", str, (double)(end-start)/CLOCKS_PER_SEC);
 }
 
 Board board_with_id(int id) {
@@ -71,16 +71,35 @@ void bench_heuristic() {
   brain = Brain(kStoneBlack);
   
   start_time();
-  brain.MiniMaxSearch(board);
-  end_time("MiniMaxSearch");
-
+  brain.Heuristic(board);
+  end_time("Heuristic");
 }
 
 void bench_search() {
   Board board;
   Brain brain(kStoneBlack);
+  
+  printf("\n*** Algorithm (Easy) ***\n");
+  board = board_with_id(1);
+  brain = Brain(kStoneBlack);
 
-  printf("\n*** Search Algorithm ***\n");
+  start_time();
+  brain.GetPutPoint(board);
+  end_time("Original");
+  
+  start_time();
+  brain.GetSearchPoint(board, 0, false);
+  end_time("MiniMaxSearch(0)");
+  
+  start_time();
+  brain.GetSearchPoint(board, 1, false);
+  end_time("MiniMaxSearch(1)");
+  
+  start_time();
+  brain.GetSearchPoint(board, 2, false);
+  end_time("MiniMaxSearch(2)");
+
+  printf("\n*** Algorithm (Difficult) ***\n");
   board = board_with_id(400);
   brain = Brain(kStoneBlack);
 

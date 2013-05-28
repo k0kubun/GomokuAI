@@ -100,6 +100,8 @@ class Board {
                                         StoneType stone);
   Position FindMultipleLinePreMakablePoint(int least_length, StoneType stone);
   Position GetExtendPoint(Line line, StoneType put_stone);
+  StoneType StoneToPut();
+  Board CopyWithPoint(int x, int y);
 
   static bool IsInTheBoard(int x, int y) {
     return x >= 0 && x < kBoardSize && y >= 0 && y < kBoardSize;
