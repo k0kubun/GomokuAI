@@ -6,3 +6,4 @@ GomokuPuzzle.mm
 .DS_Store
 test/*.test
 gomocup
+benchmark/bench

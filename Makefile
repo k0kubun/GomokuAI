@@ -13,7 +13,7 @@ all: board.cc line.cc board.h test/board_test.cc test/line_test.cc
 
 	./test/board.test
 	./test/line.test
-	./test/brain.test	
+	./test/brain.test
 
 board: board.cc board.h test/board_test.cc
 	g++ -c test/board_test.cc
@@ -48,3 +48,16 @@ gomocup: gomocup.cc gomocup.h board.cc line.cc board.h brain.cc brain.h
 	rm line.o
 	rm brain.o
 	rm gomocup.o
+
+bench: benchmark/brain_bench.cc board.cc line.cc board.h brain.cc brain.h
+	g++ -c board.cc
+	g++ -c line.cc
+	g++ -c brain.cc
+	g++ -c benchmark/brain_bench.cc
+	g++ -o benchmark/bench board.o line.o brain.o brain_bench.o
+	rm board.o
+	rm line.o
+	rm brain.o
+	rm brain_bench.o
+	./benchmark/bench
+
