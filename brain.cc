@@ -67,7 +67,8 @@ Position Brain::GetPutPoint(Board board) {
   }
 
   put_point = board.FindMultipleLineMakablePoint(4, 3, own_stone());
-  if (put_point.Exists()) {
+  if (put_point.Exists() &&
+      board.IsBannedPoint(put_point, own_stone()) == false) {
     return put_point;
   }
 
@@ -81,7 +82,8 @@ Position Brain::GetPutPoint(Board board) {
   }
 
   put_point = board.FindMultipleLinePreMakablePoint(4, own_stone());
-  if (put_point.Exists()) {
+  if (put_point.Exists() &&
+      board.IsBannedPoint(put_point, own_stone()) == false) {
     return put_point;
   }
 
@@ -95,12 +97,14 @@ Position Brain::GetPutPoint(Board board) {
   }
 
   put_point = board.FindMultipleLineMakablePoint(4, 3, opponent_stone());
-  if (put_point.Exists()) {
+  if (put_point.Exists() &&
+      board.IsBannedPoint(put_point, own_stone()) == false) {
     return put_point;
   }
 
   put_point = board.FindMultipleLinePreMakablePoint(4, opponent_stone());
-  if (put_point.Exists()) {
+  if (put_point.Exists() &&
+      board.IsBannedPoint(put_point, own_stone()) == false) {
     return put_point;
   }
 
@@ -112,13 +116,15 @@ Position Brain::GetPutPoint(Board board) {
   }
 
   put_point = board.FindMultipleLinePreMakablePoint(3, own_stone());
-  if (put_point.Exists()) {
+  if (put_point.Exists() &&
+      board.IsBannedPoint(put_point, own_stone()) == false) {
     return put_point;
   }
 
   if (kAllowed3x3[opponent_stone()] == true) {
     put_point = board.FindMultipleLineMakablePoint(3, 3, opponent_stone());
-    if (put_point.Exists()) {
+    if (put_point.Exists() &&
+        board.IsBannedPoint(put_point, own_stone()) == false) {
       return put_point;
     }
   }
@@ -272,7 +278,7 @@ Position Brain::GetSearchPoint(Board board, int count, bool alpha_beta) {
 
 int Brain::MiniMax(Board board, int depth) {
   int max, min, score;
-  
+
   if (depth == 0 || board.StoneNum() == kBoardSize * kBoardSize) {
     return Heuristic(board);
   }
@@ -284,7 +290,7 @@ int Brain::MiniMax(Board board, int depth) {
         if (IsPointToPut(board, i, j) == false) {
           continue;
         }
-        
+
         score = MiniMax(board.CopyWithPoint(i, j), depth - 1);
         if (score > max) {
           max = score;
@@ -299,7 +305,7 @@ int Brain::MiniMax(Board board, int depth) {
         if (IsPointToPut(board, i, j) == false) {
           continue;
         }
-        
+
         score = MiniMax(board.CopyWithPoint(i, j), depth - 1);
         if (score < min) {
           min = score;

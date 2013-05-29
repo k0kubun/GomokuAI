@@ -217,7 +217,8 @@ Position Board::FindMultipleLineMakablePoint(int first_length,
 
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      if (this->stone(i, j) == kStoneBlank) {
+      if (this->stone(i, j) == kStoneBlank &&
+          this->IsBannedPoint(i, j, stone) == false) {
         virtual_board = *this;
         virtual_board.set_stone(i, j, stone);
         line = virtual_board.GetMaxLengthAliveDiscontinuousLine(i, j, stone);
@@ -371,7 +372,7 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
     undirectional_blank = main_line.UndirectionalBlank(direction);
     if (undirectional_blank.IsInTheBoard() &&
         this->stone(undirectional_blank) == kStoneBlank) {
-      split_point_b = directional_blank.MoveAgainstDirection(direction);
+      split_point_b = undirectional_blank.MoveAgainstDirection(direction);
       if (split_point_b.IsInTheBoard()) {
         split_line_b =
             GetContinuousLineWithDirection(split_point_b, stone, direction);
