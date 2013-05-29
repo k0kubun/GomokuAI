@@ -28,12 +28,6 @@ bool Board::IsBannedPoint(Position point, StoneType stone) {
   return this->IsBannedPoint(point.x, point.y, stone);
 }
 
-bool Board::AllowsToPut(Position point, StoneType stone) {
-  return this->stone(point) == kStoneBlank &&
-      point.IsInTheBoard() &&
-      this->IsBannedPoint(point, stone) == false;
-}
-
 BannedReason Board::GetBannedReason(int x, int y, StoneType stone) {
   Board virtual_board(*this);
   Board::Line line;
@@ -276,9 +270,13 @@ Position Board::GetExtendPoint(Board::Line line, StoneType put_stone) {
   if (line.IsContinuous() ||
       (line.IsContinuous() == false &&
        this->AllowsToPut(line.SplitPoint(), put_stone) == false)) {
-    if (this->AllowsToPut(line.DirectionalBlank(), put_stone)) {
+    if (this->AllowsToPut(line.DirectionalBlank(), put_stone) &&
+        (line.DiscontinuousLength() != 3 || // 長さ3の場合は2つ先をチェック
+         this->IsInTheBoardAndBlank(line.DirectionalBlank(2)) == true)) {
       return line.DirectionalBlank();
-    } else if (this->AllowsToPut(line.UndirectionalBlank(), put_stone)) {
+    } else if (this->AllowsToPut(line.UndirectionalBlank(), put_stone) &&
+               (line.DiscontinuousLength() != 3 || // 長さ3の場合は2つ先をチェック
+                this->IsInTheBoardAndBlank(line.UndirectionalBlank(2)) == true)) {
       return line.UndirectionalBlank();
     } else {
       return Position::Null();
@@ -317,6 +315,24 @@ void Board::set_stone(int x, int y, StoneType stone) {
 
 void Board::set_stone(Position point, StoneType stone) {
   this->set_stone(point.x, point.y, stone);
+}
+
+StoneType Board::OppositeStone(StoneType stone) {
+  if (stone == kStoneBlack) {
+    return kStoneWhite;
+  } else {
+    return kStoneBlack;
+  }
+}
+
+bool Board::AllowsToPut(Position point, StoneType stone) {
+  return this->stone(point) == kStoneBlank &&
+      point.IsInTheBoard() &&
+      this->IsBannedPoint(point, stone) == false;
+}
+
+bool Board::IsInTheBoardAndBlank(Position point) {
+  return this->stone(point) == kStoneBlank && point.IsInTheBoard();
 }
 
 Board::Line Board::GetContinuousLineWithDirection(Position point,

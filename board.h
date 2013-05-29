@@ -62,8 +62,10 @@ class Board {
     Position DirectionalEdge(Vector direction);
     Position UndirectionalEdge(Vector direction);
     Position DirectionalBlank();
+    Position DirectionalBlank(int blank_num);
     Position DirectionalBlank(Vector direction);
     Position UndirectionalBlank();
+    Position UndirectionalBlank(int blank_num);
     Position UndirectionalBlank(Vector direction);
     Position SplitPoint();
 
@@ -84,7 +86,6 @@ class Board {
   bool HasWinner(StoneType stone);
   bool IsBannedPoint(int x, int y, StoneType stone);
   bool IsBannedPoint(Position point, StoneType stone);
-  bool AllowsToPut(Position point, StoneType stone);
   BannedReason GetBannedReason(int x, int y, StoneType stone);
   int  StoneNum();
   int  NumOf(StoneType stone);
@@ -116,13 +117,9 @@ class Board {
   void set_stone(Position point, StoneType stone);
 
  protected:
-  StoneType OppositeStone(StoneType stone) {
-    if (stone == kStoneBlack) {
-      return kStoneWhite;
-    } else {
-      return kStoneBlack;
-    }
-  }
+  StoneType OppositeStone(StoneType stone);
+  bool AllowsToPut(Position point, StoneType stone);
+  bool IsInTheBoardAndBlank(Position point);
   Line GetContinuousLineWithDirection(Position point, StoneType stone,
                                       Vector direction);
   Line GetContinuousLineWithDirection(int x, int y, StoneType stone,

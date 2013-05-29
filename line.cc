@@ -214,6 +214,15 @@ Position Board::Line::DirectionalBlank() {
   return this->DirectionalEdge(direction).MoveForDirection(direction);
 }
 
+Position Board::Line::DirectionalBlank(int blank_num) {
+  Vector direction = this->DirectionVector();
+  Position destination = this->DirectionalEdge(direction);
+  for (int i = 0; i < blank_num; i++) {
+    destination = destination.MoveForDirection(direction);
+  }
+  return destination;
+}
+
 Position Board::Line::DirectionalBlank(Vector direction) {
   return this->DirectionalEdge(direction).MoveForDirection(direction);
 }
@@ -221,6 +230,15 @@ Position Board::Line::DirectionalBlank(Vector direction) {
 Position Board::Line::UndirectionalBlank() {
   Vector direction = this->DirectionVector();
   return this->UndirectionalEdge(direction).MoveAgainstDirection(direction);
+}
+
+Position Board::Line::UndirectionalBlank(int blank_num) {
+  Vector direction = this->DirectionVector();
+  Position destination = this->UndirectionalEdge(direction);
+  for (int i = 0; i < blank_num; i++) {
+    destination = destination.MoveAgainstDirection(direction);
+  }
+  return destination;
 }
 
 Position Board::Line::UndirectionalBlank(Vector direction) {
