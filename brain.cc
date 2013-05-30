@@ -193,9 +193,10 @@ int Brain::Heuristic(Board board) {
   StoneType own_stone = own_stone_;
   StoneType opponent_stone = OppositeStone(own_stone);
   Board::Line line;
-  int heuristic = kHeuristicMin, length;
+  int heuristic = 0, length;
   int num_of_own[6], num_of_opponent[6];
   StoneType stone;
+  int point_own, point_opponent;
 
   for (int i = 0; i < 6; i++) {
     num_of_own[i] = 0;
@@ -228,8 +229,15 @@ int Brain::Heuristic(Board board) {
   }
 
   for (int i = 0; i < 6; i++) {
-    heuristic += num_of_own[i] * pow(10, i);
-    heuristic -= num_of_opponent[i] * pow(10, i + 1);
+    if (i == 5) {
+      point_own = 10000000;
+      point_opponent = 10000000;
+    } else {
+      point_own = pow(10, i);
+      point_opponent = pow(10, i + 1);
+    }
+    heuristic += num_of_own[i] * point_own;
+    heuristic -= num_of_opponent[i] * point_opponent;
   }
   return heuristic;
 }
@@ -306,7 +314,9 @@ int Brain::MiniMax(Board board, int depth) {
 }
 
 int Brain::AlphaBeta(Board board, int depth, int alpha, int beta) {
-  if (depth == 0 || board.StoneNum() == kBoardSize * kBoardSize) {
+  if (depth == 0 ||
+      board.StoneNum() == kBoardSize * kBoardSize ||
+      board.HasWinner() == true) {
     return Heuristic(board);
   }
 

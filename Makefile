@@ -61,3 +61,15 @@ bench: benchmark/brain_bench.cc board.cc line.cc board.h brain.cc brain.h
 	rm brain_bench.o
 	./benchmark/bench
 
+heuristic: debug/brain_debug.cc board.cc line.cc board.h brain.cc brain.h
+	g++ -c board.cc
+	g++ -c line.cc
+	g++ -c brain.cc
+	g++ -c debug/brain_debug.cc
+	g++ -o debug/debug board.o line.o brain.o brain_debug.o
+	rm board.o
+	rm line.o
+	rm brain.o
+	rm brain_debug.o
+	./debug/debug
+

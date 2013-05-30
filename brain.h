@@ -5,11 +5,11 @@
 #include "math.h"
 
 enum {
-  kHeuristicMin = 0,
-  kHeuristicMax = 1000,
+  kHeuristicMin = INT_MIN,
+  kHeuristicMax = INT_MAX,
 };
 
-const int kRecursiveNum = 2;
+const int kRecursiveNum = 3;
 
 class Brain {
  public:
@@ -20,7 +20,7 @@ class Brain {
   Position AlphaBetaPruning(Board board);
   Position GetPutPoint(Board board);
 
-  //For Bench
+  //For Debug
   Position  GetSearchPoint(Board board, int count, bool alpha_beta);
   int       Heuristic(Board board);
 
