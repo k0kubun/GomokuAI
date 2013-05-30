@@ -34,12 +34,15 @@ class Brain {
   //int       Heuristic(Board board, StoneType own_stone);
   //Position  GetSearchPoint(Board board, int count, bool alpha_beta);
   int       MiniMax(Board board, int depth);
-  int       AlphaBeta(Board board, int depth, int cut);
+  int       AlphaBeta(Board board, int depth, int alpha, int beta);
+  int       Max(int a, int b);
+  int       Min(int a, int b);
   Position  GetEmptyPoint(Board board);
   StoneType OppositeStone(StoneType stone);
 
   StoneType own_stone_;
   int       cut_num_[kRecursiveNum];
+  int       heuristic_count;//debug
 };
 
 #endif

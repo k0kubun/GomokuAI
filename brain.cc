@@ -160,6 +160,9 @@ StoneType Brain::opponent_stone() {
 
 bool Brain::IsPointToPut(Board board, int x, int y) {
   int search_length = 1;
+  if (board.StoneNum() == 0) {
+    return true;
+  }
   if (board.stone(x, y) != kStoneBlank
       || board.IsBannedPoint(x, y, board.StoneToPut()) == true) {
     return false;
@@ -194,56 +197,42 @@ int Brain::Heuristic(Board board) {
   StoneType opponent_stone = OppositeStone(own_stone);
   Board::Line line;
   int heuristic = kHeuristicMin, length;
-  int num_of_length[6];
+  int num_of_own[6], num_of_opponent[6];
+  StoneType stone;
 
   for (int i = 0; i < 6; i++) {
-    num_of_length[i] = 0;
+    num_of_own[i] = 0;
+    num_of_opponent[i] = 0;
   }
 
   heuristic += HeuristicCenterHigh(board);
 
-    for (int i = 0; i < kBoardSize; i++) {
-      for (int j = 0; j < kBoardSize; j++) {
-      std::list<int> length_list =
-          board.GetAliveDiscontinuousLineLengthList(i, j, own_stone);
-      std::list<int>::iterator list_iter = length_list.begin();
-      while (list_iter != length_list.end()) {
-        length = *list_iter;
-        if (length > 5) {
-          length = 5;
-        }
-        num_of_length[length]++;
-        list_iter++;
-      }
-    }
-  }
-
-  for (int i = 0; i < 6; i++) {
-    heuristic += num_of_length[i] * pow(10, i);
-  }
-
-  for (int i = 0; i < 6; i++) {
-    num_of_length[i] = 0;
-  }
-
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {
-      std::list<int> length_list =
-          board.GetAliveDiscontinuousLineLengthList(i, j, opponent_stone);
-      std::list<int>::iterator list_iter = length_list.begin();
-      while (list_iter != length_list.end()) {
-        length = *list_iter;
-        if (length > 5) {
-          length = 5;
+      stone = board.stone(i, j);
+      if (stone != kStoneBlank) {
+        std::list<int> length_list =
+            board.GetAliveDiscontinuousLineLengthList(i, j, stone);
+        std::list<int>::iterator list_iter = length_list.begin();
+        while (list_iter != length_list.end()) {
+          length = *list_iter;
+          if (length > 5) {
+            length = 5;
+          }
+          if (stone == own_stone) {
+            num_of_own[length]++;
+          } else {
+            num_of_opponent[length]++;
+          }
+          list_iter++;
         }
-        num_of_length[length]++;
-        list_iter++;
       }
     }
   }
 
   for (int i = 0; i < 6; i++) {
-    heuristic -= num_of_length[i] * pow(10, i);
+    heuristic += num_of_own[i] * pow(10, i);
+    heuristic -= num_of_opponent[i] * pow(10, i);
   }
 
   return heuristic;
@@ -263,7 +252,7 @@ Position Brain::GetSearchPoint(Board board, int count, bool alpha_beta) {
       virtual_board = board;
       virtual_board.set_stone(i, j, own_stone());
       if (alpha_beta == true) {
-        current_min_max = AlphaBeta(virtual_board, count, max_min_max);
+        current_min_max = AlphaBeta(virtual_board, count, INT_MIN, INT_MAX);
       } else {
         current_min_max = MiniMax(virtual_board, count);
       }
@@ -316,11 +305,57 @@ int Brain::MiniMax(Board board, int depth) {
   }
 }
 
-int Brain::AlphaBeta(Board board, int depth, int cut) {
+int Brain::AlphaBeta(Board board, int depth, int alpha, int beta) {
   if (depth == 0 || board.StoneNum() == kBoardSize * kBoardSize) {
     return Heuristic(board);
   }
+
+  if (board.StoneToPut() == own_stone()) {
+    for (int i = 0; i < kBoardSize; i++) {
+      for (int j = 0; j < kBoardSize; j++) {
+        if (IsPointToPut(board, i, j) == false) {
+          continue;
+        }
+        alpha = Max(alpha, AlphaBeta(board.CopyWithPoint(i, j),
+                                     depth - 1, alpha, beta));
+        if (alpha >= beta) {
+          return beta;
+        }
+      }
+    }
+    return alpha;
+  } else {
+    for (int i = 0; i < kBoardSize; i++) {
+      for (int j = 0; j < kBoardSize; j++) {
+        if (IsPointToPut(board, i, j) == false) {
+          continue;
+        }
+        beta = Min(beta, AlphaBeta(board.CopyWithPoint(i, j),
+                                     depth - 1, alpha, beta));
+        if (alpha >= beta) {
+          return alpha;
+        }
+      }
+    }
+    return beta;
+  }
   return 0;
+}
+
+int Brain::Max(int a, int b) {
+  if (a >= b) {
+    return a;
+  } else {
+    return b;
+  }
+}
+
+int Brain::Min(int a, int b) {
+  if (a > b) {
+    return b;
+  } else {
+    return a;
+  }
 }
 
 Position Brain::GetEmptyPoint(Board board) {
