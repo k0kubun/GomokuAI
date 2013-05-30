@@ -397,7 +397,7 @@ Board::Line Board::GetDiscontinuousLineWithDirection(int x, int y,
 
     if (split_line_a.ContinuousLength() > split_line_b.ContinuousLength()) {
       main_line.Append(split_line_a);
-    } else {
+    } else if (split_line_a.ContinuousLength() < split_line_b.ContinuousLength()) {
       main_line.Append(split_line_b);
     }
     return main_line;

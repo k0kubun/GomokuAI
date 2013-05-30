@@ -102,10 +102,6 @@ void bench_search() {
   start_time();
   brain.GetSearchPoint(board, 3, false);
   end_time("MiniMaxSearch(3)");
-
-  // start_time();
-  // brain.GetSearchPoint(board, 1, true);
-  // end_time("AlphaBeta(1)");
   
   start_time();
   brain.GetSearchPoint(board, 2, true);
@@ -114,31 +110,7 @@ void bench_search() {
   start_time();
   brain.GetSearchPoint(board, 3, true);
   end_time("AlphaBeta(3)");
-  /*
-  printf("\n*** Algorithm (Difficult) ***\n");
-  board = board_with_id(400);
-  brain = Brain(kStoneBlack);
 
-  start_time();
-  brain.GetPutPoint(board);
-  end_time("Original");
-  
-  start_time();
-  brain.GetSearchPoint(board, 0, false);
-  end_time("MiniMaxSearch(0)");
-  
-  start_time();
-  brain.GetSearchPoint(board, 1, false);
-  end_time("MiniMaxSearch(1)");
-
-  start_time();
-  brain.GetSearchPoint(board, 1, true);
-  end_time("AlphaBeta(1)");
-
-  start_time();
-  brain.GetSearchPoint(board, 2, true);
-  end_time("AlphaBeta(2)");
-  */
 }
 
 int main() {

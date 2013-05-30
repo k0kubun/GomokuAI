@@ -160,9 +160,6 @@ StoneType Brain::opponent_stone() {
 
 bool Brain::IsPointToPut(Board board, int x, int y) {
   int search_length = 1;
-  if (board.StoneNum() == 0) {
-    return true;
-  }
   if (board.stone(x, y) != kStoneBlank
       || board.IsBannedPoint(x, y, board.StoneToPut()) == true) {
     return false;
@@ -193,7 +190,7 @@ int Brain::HeuristicCenterHigh(Board board) {
 }
 
 int Brain::Heuristic(Board board) {
-  StoneType own_stone = board.StoneToPut();
+  StoneType own_stone = own_stone_;
   StoneType opponent_stone = OppositeStone(own_stone);
   Board::Line line;
   int heuristic = kHeuristicMin, length;
@@ -232,16 +229,19 @@ int Brain::Heuristic(Board board) {
 
   for (int i = 0; i < 6; i++) {
     heuristic += num_of_own[i] * pow(10, i);
-    heuristic -= num_of_opponent[i] * pow(10, i);
+    heuristic -= num_of_opponent[i] * pow(10, i + 1);
   }
-
   return heuristic;
 }
 
 Position Brain::GetSearchPoint(Board board, int count, bool alpha_beta) {
   Position put_point;
   Board virtual_board;
-  int max_min_max = 0, current_min_max;
+  int max_min_max = INT_MIN, current_min_max;
+
+  if (board.StoneNum() == 0) {
+    return Position(kBoardSize / 2, kBoardSize / 2);
+  }
 
   for (int i = 0; i < kBoardSize; i++) {
     for (int j = 0; j < kBoardSize; j++) {

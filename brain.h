@@ -9,7 +9,7 @@ enum {
   kHeuristicMax = 1000,
 };
 
-const int kRecursiveNum = 0;
+const int kRecursiveNum = 2;
 
 class Brain {
  public:
