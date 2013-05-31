@@ -191,7 +191,6 @@ int Brain::HeuristicCenterHigh(Board board) {
 
 int Brain::Heuristic(Board board) {
   StoneType own_stone = own_stone_;
-  StoneType opponent_stone = OppositeStone(own_stone);
   Board::Line line;
   int heuristic = 0, length;
   int num_of_own[6], num_of_opponent[6];
